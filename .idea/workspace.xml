@@ -2,134 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="07e98f4a-235f-4052-8e04-134c4d294088" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/StatisticsCreate.iml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Godeps/Godeps.json" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Godeps/Readme" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/Procfile" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/config/CreateStatistics.config" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/lib/lib.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/main.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/go-redis/redis/.gitignore" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/go-redis/redis/.travis.yml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/go-redis/redis/LICENSE" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/go-redis/redis/Makefile" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/go-redis/redis/README.md" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/go-redis/redis/cluster.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/go-redis/redis/cluster_commands.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/go-redis/redis/command.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/go-redis/redis/commands.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/go-redis/redis/doc.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/go-redis/redis/internal/consistenthash/consistenthash.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/go-redis/redis/internal/error.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/go-redis/redis/internal/hashtag/hashtag.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/go-redis/redis/internal/internal.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/go-redis/redis/internal/log.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/go-redis/redis/internal/once.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/go-redis/redis/internal/pool/conn.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/go-redis/redis/internal/pool/pool.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/go-redis/redis/internal/pool/pool_single.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/go-redis/redis/internal/pool/pool_sticky.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/go-redis/redis/internal/proto/reader.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/go-redis/redis/internal/proto/scan.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/go-redis/redis/internal/proto/write_buffer.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/go-redis/redis/internal/safe.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/go-redis/redis/internal/unsafe.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/go-redis/redis/internal/util.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/go-redis/redis/iterator.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/go-redis/redis/options.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/go-redis/redis/parser.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/go-redis/redis/pipeline.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/go-redis/redis/pubsub.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/go-redis/redis/redis.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/go-redis/redis/redis_context.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/go-redis/redis/redis_no_context.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/go-redis/redis/result.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/go-redis/redis/ring.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/go-redis/redis/script.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/go-redis/redis/sentinel.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/go-redis/redis/tx.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/go-redis/redis/universal.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/kshvakov/clickhouse/.gitignore" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/kshvakov/clickhouse/.travis.yml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/kshvakov/clickhouse/CONTRIBUTING.md" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/kshvakov/clickhouse/LICENSE" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/kshvakov/clickhouse/Makefile" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/kshvakov/clickhouse/README.md" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/kshvakov/clickhouse/array.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/kshvakov/clickhouse/bootstrap.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/kshvakov/clickhouse/clickhouse.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/kshvakov/clickhouse/clickhouse_exception.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/kshvakov/clickhouse/clickhouse_ping.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/kshvakov/clickhouse/clickhouse_profile_info.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/kshvakov/clickhouse/clickhouse_progress.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/kshvakov/clickhouse/clickhouse_read_block.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/kshvakov/clickhouse/clickhouse_read_meta.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/kshvakov/clickhouse/clickhouse_send_query.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/kshvakov/clickhouse/clickhouse_write_block.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/kshvakov/clickhouse/connect.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/kshvakov/clickhouse/docker-compose.yml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/kshvakov/clickhouse/go.test.sh" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/kshvakov/clickhouse/helpers.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/kshvakov/clickhouse/ip.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/kshvakov/clickhouse/lib/binary/decoder.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/kshvakov/clickhouse/lib/binary/encoder.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/kshvakov/clickhouse/lib/column/array.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/kshvakov/clickhouse/lib/column/column.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/kshvakov/clickhouse/lib/column/common.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/kshvakov/clickhouse/lib/column/datetime.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/kshvakov/clickhouse/lib/column/enum.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/kshvakov/clickhouse/lib/column/fixed_string.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/kshvakov/clickhouse/lib/column/float32.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/kshvakov/clickhouse/lib/column/float64.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/kshvakov/clickhouse/lib/column/int16.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/kshvakov/clickhouse/lib/column/int32.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/kshvakov/clickhouse/lib/column/int64.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/kshvakov/clickhouse/lib/column/int8.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/kshvakov/clickhouse/lib/column/nullable.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/kshvakov/clickhouse/lib/column/string.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/kshvakov/clickhouse/lib/column/uint16.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/kshvakov/clickhouse/lib/column/uint32.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/kshvakov/clickhouse/lib/column/uint64.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/kshvakov/clickhouse/lib/column/uint8.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/kshvakov/clickhouse/lib/column/uuid.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/kshvakov/clickhouse/lib/data/block.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/kshvakov/clickhouse/lib/data/block_write_column.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/kshvakov/clickhouse/lib/data/client_info.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/kshvakov/clickhouse/lib/data/server_info.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/kshvakov/clickhouse/lib/protocol/README.md" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/kshvakov/clickhouse/lib/protocol/protocol.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/kshvakov/clickhouse/lib/types/array.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/kshvakov/clickhouse/lib/writebuffer/buffer.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/kshvakov/clickhouse/result.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/kshvakov/clickhouse/rows.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/kshvakov/clickhouse/stmt.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/kshvakov/clickhouse/uuid.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/kshvakov/clickhouse/value_converter.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/kshvakov/clickhouse/write_column.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/mattn/go-runewidth/.travis.yml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/mattn/go-runewidth/LICENSE" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/mattn/go-runewidth/README.mkd" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/mattn/go-runewidth/runewidth.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/mattn/go-runewidth/runewidth_js.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/mattn/go-runewidth/runewidth_posix.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/mattn/go-runewidth/runewidth_windows.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/olekukonko/tablewriter/.travis.yml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/olekukonko/tablewriter/LICENCE.md" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/olekukonko/tablewriter/README.md" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/olekukonko/tablewriter/csv.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/olekukonko/tablewriter/table.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/olekukonko/tablewriter/table_with_color.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/olekukonko/tablewriter/test.csv" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/olekukonko/tablewriter/test_info.csv" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/olekukonko/tablewriter/util.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/olekukonko/tablewriter/wrap.go" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/satori/go.uuid/.travis.yml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/satori/go.uuid/LICENSE" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/satori/go.uuid/README.md" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/vendor/github.com/satori/go.uuid/uuid.go" />
+      <change beforePath="$PROJECT_DIR$/lib/lib.go" afterPath="$PROJECT_DIR$/lib/lib.go" />
+      <change beforePath="$PROJECT_DIR$/main.go" afterPath="$PROJECT_DIR$/main.go" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -143,10 +17,11 @@
       <file leaf-file-name="main.go" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="355">
-              <caret line="150" column="24" lean-forward="false" selection-start-line="150" selection-start-column="24" selection-end-line="150" selection-end-column="24" />
+            <state relative-caret-position="18">
+              <caret line="108" column="44" lean-forward="false" selection-start-line="108" selection-start-column="44" selection-end-line="108" selection-end-column="44" />
               <folding>
-                <element signature="e#14#260#0" expanded="true" />
+                <marker date="1510495788993" expanded="true" signature="1230:1320" ph="INSERT INTO statistics... " />
+                <marker date="1510495788993" expanded="true" signature="1347:1392" ph="INSERT INTO statistic... " />
               </folding>
             </state>
           </provider>
@@ -165,8 +40,8 @@
       <file leaf-file-name="lib.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lib/lib.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="36">
-              <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+            <state relative-caret-position="162">
+              <caret line="9" column="1" lean-forward="false" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
               <folding />
             </state>
           </provider>
@@ -188,9 +63,9 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
+        <option value="$PROJECT_DIR$/config/CreateStatistics.config" />
         <option value="$PROJECT_DIR$/lib/lib.go" />
         <option value="$PROJECT_DIR$/main.go" />
-        <option value="$PROJECT_DIR$/config/CreateStatistics.config" />
       </list>
     </option>
   </component>
@@ -249,6 +124,11 @@
               <item name="StatisticsCreate" type="b2602c69:ProjectViewProjectNode" />
               <item name="StatisticsCreate" type="462c0819:PsiDirectoryNode" />
               <item name="config" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="StatisticsCreate" type="b2602c69:ProjectViewProjectNode" />
+              <item name="StatisticsCreate" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="StatisticsCreate" type="b2602c69:ProjectViewProjectNode" />
@@ -312,7 +192,7 @@
     <frame x="0" y="-10" width="1366" height="778" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24962063" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.098634295" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Heroku" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
@@ -341,7 +221,14 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="1" />
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/lib/lib.go</url>
+          <properties />
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="2" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -356,8 +243,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/lib.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="36">
-          <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+        <state relative-caret-position="162">
+          <caret line="9" column="1" lean-forward="false" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
           <folding />
         </state>
       </provider>
@@ -372,10 +259,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="355">
-          <caret line="150" column="24" lean-forward="false" selection-start-line="150" selection-start-column="24" selection-end-line="150" selection-end-column="24" />
+        <state relative-caret-position="18">
+          <caret line="108" column="44" lean-forward="false" selection-start-line="108" selection-start-column="44" selection-end-line="108" selection-end-column="44" />
           <folding>
-            <element signature="e#14#260#0" expanded="true" />
+            <marker date="1510495788993" expanded="true" signature="1230:1320" ph="INSERT INTO statistics... " />
+            <marker date="1510495788993" expanded="true" signature="1347:1392" ph="INSERT INTO statistic... " />
           </folding>
         </state>
       </provider>
