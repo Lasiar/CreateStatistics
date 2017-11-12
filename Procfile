@@ -1,1 +1,1 @@
-web: json_to_clickhouse
+web: StatisticsCreate
