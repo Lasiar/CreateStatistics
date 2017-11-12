@@ -1,0 +1,89 @@
+{
+	"ImportPath": "StatisticsCreate",
+	"GoVersion": "go1.9",
+	"GodepVersion": "v79",
+	"Packages": [
+		"./..."
+	],
+	"Deps": [
+		{
+			"ImportPath": "github.com/go-redis/redis",
+			"Comment": "v6.7.2",
+			"Rev": "35248155a505a84811be81a2aab1c423317447be"
+		},
+		{
+			"ImportPath": "github.com/go-redis/redis/internal",
+			"Comment": "v6.7.2",
+			"Rev": "35248155a505a84811be81a2aab1c423317447be"
+		},
+		{
+			"ImportPath": "github.com/go-redis/redis/internal/consistenthash",
+			"Comment": "v6.7.2",
+			"Rev": "35248155a505a84811be81a2aab1c423317447be"
+		},
+		{
+			"ImportPath": "github.com/go-redis/redis/internal/hashtag",
+			"Comment": "v6.7.2",
+			"Rev": "35248155a505a84811be81a2aab1c423317447be"
+		},
+		{
+			"ImportPath": "github.com/go-redis/redis/internal/pool",
+			"Comment": "v6.7.2",
+			"Rev": "35248155a505a84811be81a2aab1c423317447be"
+		},
+		{
+			"ImportPath": "github.com/go-redis/redis/internal/proto",
+			"Comment": "v6.7.2",
+			"Rev": "35248155a505a84811be81a2aab1c423317447be"
+		},
+		{
+			"ImportPath": "github.com/kshvakov/clickhouse",
+			"Comment": "v1.2.3-1-gdebfed7",
+			"Rev": "debfed70cb7736e1b29bcc75ea0eb0996b4846c6"
+		},
+		{
+			"ImportPath": "github.com/kshvakov/clickhouse/lib/binary",
+			"Comment": "v1.2.3-1-gdebfed7",
+			"Rev": "debfed70cb7736e1b29bcc75ea0eb0996b4846c6"
+		},
+		{
+			"ImportPath": "github.com/kshvakov/clickhouse/lib/column",
+			"Comment": "v1.2.3-1-gdebfed7",
+			"Rev": "debfed70cb7736e1b29bcc75ea0eb0996b4846c6"
+		},
+		{
+			"ImportPath": "github.com/kshvakov/clickhouse/lib/data",
+			"Comment": "v1.2.3-1-gdebfed7",
+			"Rev": "debfed70cb7736e1b29bcc75ea0eb0996b4846c6"
+		},
+		{
+			"ImportPath": "github.com/kshvakov/clickhouse/lib/protocol",
+			"Comment": "v1.2.3-1-gdebfed7",
+			"Rev": "debfed70cb7736e1b29bcc75ea0eb0996b4846c6"
+		},
+		{
+			"ImportPath": "github.com/kshvakov/clickhouse/lib/types",
+			"Comment": "v1.2.3-1-gdebfed7",
+			"Rev": "debfed70cb7736e1b29bcc75ea0eb0996b4846c6"
+		},
+		{
+			"ImportPath": "github.com/kshvakov/clickhouse/lib/writebuffer",
+			"Comment": "v1.2.3-1-gdebfed7",
+			"Rev": "debfed70cb7736e1b29bcc75ea0eb0996b4846c6"
+		},
+		{
+			"ImportPath": "github.com/mattn/go-runewidth",
+			"Comment": "v0.0.2-3-g97311d9",
+			"Rev": "97311d9f7767e3d6f422ea06661bc2c7a19e8a5d"
+		},
+		{
+			"ImportPath": "github.com/olekukonko/tablewriter",
+			"Rev": "a7a4c189eb47ed33ce7b35f2880070a0c82a67d4"
+		},
+		{
+			"ImportPath": "github.com/satori/go.uuid",
+			"Comment": "v1.1.0-8-g5bf94b6",
+			"Rev": "5bf94b69c6b68ee1b541973bb8e1144db23a194b"
+		}
+	]
+}
