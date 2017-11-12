@@ -109,7 +109,7 @@ func init() {
 		Password: config.RedisIP.Password	, // no password set
 		DB:       0,                                                                   // use default DB
 	})
-	_, err = dbRedisStat.Ping().Result()
+	_, err = dbRedisIp.Ping().Result()
 	if err != nil {
 		log.Println(err)
 	}

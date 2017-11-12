@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="07e98f4a-235f-4052-8e04-134c4d294088" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/lib/lib.go" afterPath="$PROJECT_DIR$/lib/lib.go" />
       <change beforePath="$PROJECT_DIR$/main.go" afterPath="$PROJECT_DIR$/main.go" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -17,11 +16,11 @@
       <file leaf-file-name="main.go" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="18">
-              <caret line="108" column="44" lean-forward="false" selection-start-line="108" selection-start-column="44" selection-end-line="108" selection-end-column="44" />
+            <state relative-caret-position="763">
+              <caret line="107" column="38" lean-forward="true" selection-start-line="107" selection-start-column="38" selection-end-line="107" selection-end-column="38" />
               <folding>
-                <marker date="1510495788993" expanded="true" signature="1230:1320" ph="INSERT INTO statistics... " />
-                <marker date="1510495788993" expanded="true" signature="1347:1392" ph="INSERT INTO statistic... " />
+                <marker date="1510497842364" expanded="true" signature="1230:1320" ph="INSERT INTO statistics... " />
+                <marker date="1510497842364" expanded="true" signature="1347:1392" ph="INSERT INTO statistic... " />
               </folding>
             </state>
           </provider>
@@ -144,7 +143,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="settings.editor.selected.configurable" value="Errors" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/main.go" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="go.sdk.automatically.set" value="true" />
     <property name="DefaultGoTemplateProperty" value="Go Application" />
   </component>
@@ -259,11 +258,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="18">
-          <caret line="108" column="44" lean-forward="false" selection-start-line="108" selection-start-column="44" selection-end-line="108" selection-end-column="44" />
+        <state relative-caret-position="763">
+          <caret line="107" column="38" lean-forward="true" selection-start-line="107" selection-start-column="38" selection-end-line="107" selection-end-column="38" />
           <folding>
-            <marker date="1510495788993" expanded="true" signature="1230:1320" ph="INSERT INTO statistics... " />
-            <marker date="1510495788993" expanded="true" signature="1347:1392" ph="INSERT INTO statistic... " />
+            <marker date="1510497842364" expanded="true" signature="1230:1320" ph="INSERT INTO statistics... " />
+            <marker date="1510497842364" expanded="true" signature="1347:1392" ph="INSERT INTO statistic... " />
           </folding>
         </state>
       </provider>
