@@ -1,6 +1,7 @@
 package main
 
 import (
+	"CreateStatistics/lib"
 	"database/sql"
 	"encoding/json"
 	"fmt"
@@ -16,7 +17,6 @@ import (
 	"strconv"
 	"strings"
 	"time"
-	"StatisticsCreate/lib"
 )
 
 var (
@@ -38,7 +38,7 @@ type QueryClickhouse struct {
 
 type BadJson struct {
 	ip   string
-	json string
+	json interface{}
 }
 
 type Config struct {
@@ -60,13 +60,13 @@ type Config struct {
 		Addr     string `json:"addr"`
 		Password string `json:"password"`
 	} `json:"RedisIp"`
+	Port string `json:"Port"`
 }
 
 const (
-	dbClickhouseGoodQuery    = "INSERT INTO statistics(point_id, played, md5, len) VALUES (?, ?, toFixedString(?, 32),  ?)"
-	dbClickhouseBadQuery = "INSERT INTO statistic(ip, json) VALUES (?, ?)"
+	dbClickhouseGoodQuery = "INSERT INTO statistics(point_id, played, md5, len) VALUES (?, ?, toFixedString(?, 32),  ?)"
+	dbClickhouseBadQuery  = "INSERT INTO statistic(ip, json) VALUES (?, ?)"
 )
-
 
 func init() {
 	var err error
@@ -98,7 +98,7 @@ func init() {
 	dbRedisStat = redis.NewClient(&redis.Options{
 		Addr:     config.RedisStat.Addr,
 		Password: config.RedisStat.Password, // no password set
-		DB:       0,                                                                   // use default DB
+		DB:       0,                         // use default DB
 	})
 	_, err = dbRedisStat.Ping().Result()
 	if err != nil {
@@ -106,8 +106,8 @@ func init() {
 	}
 	dbRedisIp = redis.NewClient(&redis.Options{
 		Addr:     config.RedisIP.Addr,
-		Password: config.RedisIP.Password	, // no password set
-		DB:       0,                                                                   // use default DB
+		Password: config.RedisIP.Password, // no password set
+		DB:       0,                       // use default DB
 	})
 	_, err = dbRedisIp.Ping().Result()
 	if err != nil {
@@ -115,7 +115,7 @@ func init() {
 	}
 }
 
-func Configure()  {
+func Configure() {
 	file, err := ioutil.ReadFile("config/CreateStatistics.config")
 	if err != nil {
 		fmt.Println(err)
@@ -124,8 +124,8 @@ func Configure()  {
 	if err != nil {
 		fmt.Println("Unmarshal config", err)
 	}
-	configClickhouseGood = fmt.Sprint("tcp://",config.ClickhouseGood.Addr,":",config.ClickhouseGood.Port,"?database=",config.ClickhouseGood.DbName,"&read_timeout=10&write_timeout=20")
-	configClickhouseBad = fmt.Sprint("tcp://",config.ClickhouseBad.Addr,":",config.ClickhouseBad.Port,"?database=",config.ClickhouseBad.DbName,"&read_timeout=10&write_timeout=20")
+	configClickhouseGood = fmt.Sprint("tcp://", config.ClickhouseGood.Addr, ":", config.ClickhouseGood.Port, "?database=", config.ClickhouseGood.DbName, "&read_timeout=10&write_timeout=20")
+	configClickhouseBad = fmt.Sprint("tcp://", config.ClickhouseBad.Addr, ":", config.ClickhouseBad.Port, "?database=", config.ClickhouseBad.DbName, "&read_timeout=10&write_timeout=20")
 	PrintConfig()
 }
 
@@ -180,17 +180,18 @@ func prepareJson(postArr chan []string) {
 		jsonRaw, err := validateTypeJson(val.(string))
 		if err != nil {
 			badJson.ip = ip
-			badJson.json = val.(string)
+			badJson.json = val
 			badJsonArr = append(badJsonArr, badJson)
+			log.Println(err)
 			continue
 		}
 		q, err := jsonParser(jsonRaw)
 		if err != nil {
-			log.Println(err)
+			log.Println("jsonParser", err)
 			continue
 		}
 		err = dbRedisIp.Set(strconv.Itoa(jsonRaw.Point), ip, 0).Err()
-		if  err != nil {
+		if err != nil {
 			log.Println(err)
 		}
 		goodJson = append(goodJson, q...)
@@ -200,14 +201,13 @@ func prepareJson(postArr chan []string) {
 	if len(badJsonArr) != 0 {
 		err = sendToBadClick(badJsonArr)
 		if err != nil {
-			log.Println(err)
+			log.Println("Send to badJson: ", err)
 		}
 	}
 	if len(goodJson) != 0 {
 		err = sendToClick(goodJson)
 		if err != nil {
-			log.Println(err)
-			return
+			log.Println("Send to stat: ", err)
 		}
 	}
 	postArr <- KeyDB
@@ -225,7 +225,7 @@ func jsonParser(rawJson lib.Json) ([]QueryClickhouse, error) {
 			case 0:
 				query[p].datetime, err = strconv.ParseInt(second.(string), 10, 64)
 				if err != nil {
-					return nil, err
+					return query, err
 				}
 			case 1:
 				query[p].md5 = second.(string)
@@ -237,13 +237,19 @@ func jsonParser(rawJson lib.Json) ([]QueryClickhouse, error) {
 	return query, nil
 }
 
-
-func validateTypeJson(jsonText string) (lib.Json, error) {
+func validateTypeJson(jsonText interface{}) (lib.Json, error) {
 	var rawJson lib.Json
-	err := json.Unmarshal([]byte(jsonText), &rawJson)
-	if err != nil {
-		return rawJson, err
+	switch jsonText.(type) {
+	case string:
+		err := json.Unmarshal([]byte(jsonText.(string)), &rawJson)
+		if err != nil {
+			log.Println("err json")
+			return rawJson, err
+		}
+	default:
+		return rawJson, fmt.Errorf("unknow error")
 	}
+
 	if rawJson.Point == 0 {
 		return rawJson, fmt.Errorf("WARNING: point == 0")
 	}
@@ -279,9 +285,6 @@ func validateTypeJson(jsonText string) (lib.Json, error) {
 	return rawJson, nil
 }
 
-
-
-
 func getRealAddr(r *http.Request) string {
 	remoteIP := ""
 	if parts := strings.Split(r.RemoteAddr, ":"); len(parts) == 2 {
@@ -304,9 +307,11 @@ func getRealAddr(r *http.Request) string {
 func determineListenAddress() (string, error) {
 	port := os.Getenv("PORT")
 	if port == "" {
-		return "", fmt.Errorf("$PORT not set")
+		fmt.Print(config.Port)
+		return config.Port, nil
+	} else {
+		return ":" + port, nil
 	}
-	return ":" + port, nil
 }
 
 func httpServer(w http.ResponseWriter, r *http.Request) {
@@ -315,7 +320,7 @@ func httpServer(w http.ResponseWriter, r *http.Request) {
 	data := r.PostFormValue("data")
 	err := dbRedisStat.Set(fmt.Sprint(id, "_ip:", ip), data, 0).Err()
 	if err != nil {
-		log.Println(err)
+		log.Println("Redis SET http", err)
 		return
 	}
 	fmt.Fprint(w, `{"success":true}`)
@@ -341,7 +346,6 @@ func PrintConfig() {
 	}
 	table.Render()
 }
-
 
 func sendToClick(array []QueryClickhouse) error {
 	var (
