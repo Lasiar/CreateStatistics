@@ -2,12 +2,15 @@ package main
 
 import (
 	"CreateStatistics/lib"
+	"CreateStatistics/models"
 	"database/sql"
 	"encoding/json"
 	"fmt"
 	"github.com/go-redis/redis"
 	"github.com/kshvakov/clickhouse"
+	"github.com/lazada/goprof"
 	"github.com/olekukonko/tablewriter"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/satori/go.uuid"
 	"io/ioutil"
 	"log"
@@ -17,8 +20,6 @@ import (
 	"strconv"
 	"strings"
 	"time"
-	"github.com/prometheus/client_golang/prometheus/promhttp"
-	"github.com/lazada/goprof"
 )
 
 var (
@@ -71,50 +72,12 @@ const (
 )
 
 func init() {
-	var err error
 	Configure()
+	dbClickhouseBad = models.NewClick(configClickhouseBad)
+	dbClickhouseGood = models.NewClick(configClickhouseGood)
+	dbRedisStat = models.NewRedis(config.RedisStat.Addr, config.RedisStat.Password)
+	dbRedisStat = models.NewRedis(config.RedisIP.Addr, config.RedisIP.Password)
 
-	dbClickhouseBad, err = sql.Open("clickhouse", configClickhouseBad)
-	if err != nil {
-		log.Fatal(err)
-	}
-	if err := dbClickhouseBad.Ping(); err != nil {
-		if exception, ok := err.(*clickhouse.Exception); ok {
-			fmt.Printf("[%d] %s \n%s\n", exception.Code, exception.Message, exception.StackTrace)
-		} else {
-			fmt.Println(err)
-		}
-	}
-	dbClickhouseGood, err = sql.Open("clickhouse", configClickhouseGood)
-	if err != nil {
-		log.Fatal(err)
-	}
-	if err := dbClickhouseGood.Ping(); err != nil {
-		if exception, ok := err.(*clickhouse.Exception); ok {
-			fmt.Printf("[%d] %s \n%s\n", exception.Code, exception.Message, exception.StackTrace)
-		} else {
-			fmt.Println(err)
-		}
-	}
-
-	dbRedisStat = redis.NewClient(&redis.Options{
-		Addr:     config.RedisStat.Addr,
-		Password: config.RedisStat.Password, // no password set
-		DB:       0,                         // use default DB
-	})
-	_, err = dbRedisStat.Ping().Result()
-	if err != nil {
-		log.Println(err)
-	}
-	dbRedisIp = redis.NewClient(&redis.Options{
-		Addr:     config.RedisIP.Addr,
-		Password: config.RedisIP.Password, // no password set
-		DB:       0,                       // use default DB
-	})
-	_, err = dbRedisIp.Ping().Result()
-	if err != nil {
-		log.Println(err)
-	}
 }
 
 func Configure() {
@@ -261,7 +224,7 @@ func validateTypeJson(jsonText interface{}) (lib.Json, error) {
 		return rawJson, fmt.Errorf("WARNING: point == 0")
 	}
 	if len(rawJson.Statistics) == 0 {
-		return rawJson, fmt.Errorf("Corupted json")
+		return rawJson, fmt.Errorf("Corutpted json")
 	}
 	for _, first := range rawJson.Statistics {
 		for i, second := range first {

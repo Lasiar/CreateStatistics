@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="07e98f4a-235f-4052-8e04-134c4d294088" name="Default" comment="">
+      <change beforePath="" afterPath="$PROJECT_DIR$/models/db.go" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/lib/lib.go" afterPath="$PROJECT_DIR$/lib/lib.go" />
       <change beforePath="$PROJECT_DIR$/main.go" afterPath="$PROJECT_DIR$/main.go" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -14,36 +16,28 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="main.go" pinned="false" current-in-tab="true">
+      <file leaf-file-name="main.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="324">
-              <caret line="152" column="19" lean-forward="false" selection-start-line="152" selection-start-column="5" selection-end-line="152" selection-end-column="19" />
+            <state relative-caret-position="198">
+              <caret line="74" column="0" lean-forward="false" selection-start-line="74" selection-start-column="0" selection-end-line="74" selection-end-column="0" />
               <folding>
-                <element signature="e#14#379#0" expanded="true" />
-                <marker date="1511693849624" expanded="true" signature="1346:1436" ph="INSERT INTO statistics... " />
-                <marker date="1511693849624" expanded="true" signature="1464:1509" ph="INSERT INTO statistic... " />
+                <element signature="e#14#406#0" expanded="true" />
+                <marker date="1511708982008" expanded="true" signature="1373:1463" ph="INSERT INTO statistics... " />
+                <marker date="1511708982008" expanded="true" signature="1491:1536" ph="INSERT INTO statistic... " />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="http.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../github.com/prometheus/client_golang/prometheus/promhttp/http.go">
+      <file leaf-file-name="db.go" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/models/db.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1152">
-              <caret line="76" column="5" lean-forward="false" selection-start-line="76" selection-start-column="5" selection-end-line="76" selection-end-column="5" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="panic.go" pinned="false" current-in-tab="false">
-        <entry file="file:///usr/local/go/src/runtime/panic.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="10296">
-              <caret line="576" column="0" lean-forward="false" selection-start-line="576" selection-start-column="0" selection-end-line="576" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="414">
+              <caret line="23" column="1" lean-forward="false" selection-start-line="23" selection-start-column="1" selection-end-line="23" selection-end-column="1" />
+              <folding>
+                <element signature="e#16#119#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -53,16 +47,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
               <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="lib.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lib/lib.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="162">
-              <caret line="9" column="1" lean-forward="false" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
               <folding />
             </state>
           </provider>
@@ -99,6 +83,7 @@
         <option value="$PROJECT_DIR$/lib/lib.go" />
         <option value="$PROJECT_DIR$/config/CreateStatistics.config" />
         <option value="$PROJECT_DIR$/main.go" />
+        <option value="$PROJECT_DIR$/models/db.go" />
       </list>
     </option>
   </component>
@@ -125,9 +110,23 @@
             <id>General</id>
           </State>
           <State>
+            <id>GeneralGo</id>
+          </State>
+          <State>
+            <id>Go</id>
+          </State>
+          <State>
+            <id>Probable bugsGo</id>
+          </State>
+          <State>
             <id>XPath</id>
           </State>
         </expanded-state>
+        <selected-state>
+          <State>
+            <id>GoUnnecessarilyExportedIdentifiers</id>
+          </State>
+        </selected-state>
       </profile-state>
     </entry>
   </component>
@@ -146,7 +145,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
@@ -164,6 +162,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -218,10 +217,10 @@
     <frame x="0" y="-13" width="1920" height="1093" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.051041666" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1265625" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32901296" sideWeight="0.50208336" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run Dashboard" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3888335" sideWeight="0.49791667" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run Dashboard" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1455633" sideWeight="0.49791667" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32901296" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -263,7 +262,7 @@
           <properties />
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="3" />
+      <option name="time" value="5" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -273,9 +272,53 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#14#379#0" expanded="true" />
-            <marker date="1511693849624" expanded="true" signature="1346:1436" ph="INSERT INTO statistics... " />
-            <marker date="1511693849624" expanded="true" signature="1464:1509" ph="INSERT INTO statistic... " />
+            <element signature="e#14#406#0" expanded="true" />
+            <marker date="1511708982008" expanded="true" signature="1373:1463" ph="INSERT INTO statistics... " />
+            <marker date="1511708982008" expanded="true" signature="1491:1536" ph="INSERT INTO statistic... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../github.com/prometheus/client_golang/prometheus/promhttp/http.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1368">
+          <caret line="76" column="5" lean-forward="false" selection-start-line="76" selection-start-column="5" selection-end-line="76" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/go/src/runtime/panic.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="10368">
+          <caret line="576" column="0" lean-forward="false" selection-start-line="576" selection-start-column="0" selection-end-line="576" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/CreateStatistics.config">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/lib.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="9" column="1" lean-forward="false" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#14#406#0" expanded="true" />
+            <marker date="1511708982008" expanded="true" signature="1373:1463" ph="INSERT INTO statistics... " />
+            <marker date="1511708982008" expanded="true" signature="1491:1536" ph="INSERT INTO statistic... " />
           </folding>
         </state>
       </provider>
@@ -317,9 +360,9 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#14#379#0" expanded="true" />
-            <marker date="1511693849624" expanded="true" signature="1346:1436" ph="INSERT INTO statistics... " />
-            <marker date="1511693849624" expanded="true" signature="1464:1509" ph="INSERT INTO statistic... " />
+            <element signature="e#14#406#0" expanded="true" />
+            <marker date="1511708982008" expanded="true" signature="1373:1463" ph="INSERT INTO statistics... " />
+            <marker date="1511708982008" expanded="true" signature="1491:1536" ph="INSERT INTO statistic... " />
           </folding>
         </state>
       </provider>
@@ -345,9 +388,9 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#14#379#0" expanded="true" />
-            <marker date="1511693849624" expanded="true" signature="1346:1436" ph="INSERT INTO statistics... " />
-            <marker date="1511693849624" expanded="true" signature="1464:1509" ph="INSERT INTO statistic... " />
+            <element signature="e#14#406#0" expanded="true" />
+            <marker date="1511708982008" expanded="true" signature="1373:1463" ph="INSERT INTO statistics... " />
+            <marker date="1511708982008" expanded="true" signature="1491:1536" ph="INSERT INTO statistic... " />
           </folding>
         </state>
       </provider>
@@ -373,9 +416,9 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#14#379#0" expanded="true" />
-            <marker date="1511693849624" expanded="true" signature="1346:1436" ph="INSERT INTO statistics... " />
-            <marker date="1511693849624" expanded="true" signature="1464:1509" ph="INSERT INTO statistic... " />
+            <element signature="e#14#406#0" expanded="true" />
+            <marker date="1511708982008" expanded="true" signature="1373:1463" ph="INSERT INTO statistics... " />
+            <marker date="1511708982008" expanded="true" signature="1491:1536" ph="INSERT INTO statistic... " />
           </folding>
         </state>
       </provider>
@@ -405,14 +448,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/config/CreateStatistics.config">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../github.com/prometheus/client_golang/prometheus/promhttp/http.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1152">
@@ -429,14 +464,32 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/config/CreateStatistics.config">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/main.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="152" column="19" lean-forward="false" selection-start-line="152" selection-start-column="5" selection-end-line="152" selection-end-column="19" />
+        <state relative-caret-position="198">
+          <caret line="74" column="0" lean-forward="false" selection-start-line="74" selection-start-column="0" selection-end-line="74" selection-end-column="0" />
           <folding>
-            <element signature="e#14#379#0" expanded="true" />
-            <marker date="1511693849624" expanded="true" signature="1346:1436" ph="INSERT INTO statistics... " />
-            <marker date="1511693849624" expanded="true" signature="1464:1509" ph="INSERT INTO statistic... " />
+            <element signature="e#14#406#0" expanded="true" />
+            <marker date="1511708982008" expanded="true" signature="1373:1463" ph="INSERT INTO statistics... " />
+            <marker date="1511708982008" expanded="true" signature="1491:1536" ph="INSERT INTO statistic... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/db.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="414">
+          <caret line="23" column="1" lean-forward="false" selection-start-line="23" selection-start-column="1" selection-end-line="23" selection-end-column="1" />
+          <folding>
+            <element signature="e#16#119#0" expanded="true" />
           </folding>
         </state>
       </provider>
