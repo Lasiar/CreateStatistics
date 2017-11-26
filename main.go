@@ -17,6 +17,8 @@ import (
 	"strconv"
 	"strings"
 	"time"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
+	"github.com/lazada/goprof"
 )
 
 var (
@@ -134,6 +136,14 @@ func main() {
 	go ParseWithRedis(ticker.C)
 	addr, err := determineListenAddress()
 	http.HandleFunc("/gateway/statistics/create", httpServer)
+	go func() {
+		profilingAddress := ":8033"
+		fmt.Printf("Running profiling tools on %v\n", profilingAddress)
+		if err := goprof.ListenAndServe(profilingAddress); err != nil {
+			panic(err)
+		}
+	}()
+	http.Handle("/metrics", promhttp.Handler())
 	err = http.ListenAndServe(addr, nil) // set listen port
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
@@ -147,11 +157,9 @@ func ParseWithRedis(ticker <-chan time.Time) {
 		case <-ticker:
 			go prepareJson(postArr)
 		case post := <-postArr:
-			for _, p := range post {
-				err := dbRedisStat.Del(p).Err()
-				if err != nil {
-					log.Println(err)
-				}
+			err := dbRedisStat.Del(post...).Err()
+			if err != nil {
+				log.Println(err)
 			}
 		}
 	}
@@ -249,9 +257,11 @@ func validateTypeJson(jsonText interface{}) (lib.Json, error) {
 	default:
 		return rawJson, fmt.Errorf("unknow error")
 	}
-
 	if rawJson.Point == 0 {
 		return rawJson, fmt.Errorf("WARNING: point == 0")
+	}
+	if len(rawJson.Statistics) == 0 {
+		return rawJson, fmt.Errorf("Corupted json")
 	}
 	for _, first := range rawJson.Statistics {
 		for i, second := range first {
