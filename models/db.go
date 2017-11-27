@@ -25,8 +25,8 @@ func NewClick(config string) (*sql.DB) {
 
 func NewRedis(addr string,password string) (*redis.Client) {
 	db := redis.NewClient(&redis.Options{
-		Addr:     addr,
-		Password: password, // no password set
+		Addr:     "127.0.0.1:6379",
+		Password: "", // no password set
 		DB:       0,                         // use default DB
 	})
 	_, err := db.Ping().Result()

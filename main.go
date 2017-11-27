@@ -7,7 +7,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/go-redis/redis"
-	"github.com/kshvakov/clickhouse"
 	"github.com/lazada/goprof"
 	"github.com/olekukonko/tablewriter"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
@@ -20,6 +19,7 @@ import (
 	"strconv"
 	"strings"
 	"time"
+//	"github.com/ua-parser/uap-go/uaparser"
 )
 
 var (
@@ -72,15 +72,14 @@ const (
 )
 
 func init() {
-	Configure()
+	configure()
 	dbClickhouseBad = models.NewClick(configClickhouseBad)
 	dbClickhouseGood = models.NewClick(configClickhouseGood)
 	dbRedisStat = models.NewRedis(config.RedisStat.Addr, config.RedisStat.Password)
-	dbRedisStat = models.NewRedis(config.RedisIP.Addr, config.RedisIP.Password)
-
+	dbRedisIp = models.NewRedis(config.RedisIP.Addr, config.RedisIP.Password)
 }
 
-func Configure() {
+func configure() {
 	file, err := ioutil.ReadFile("config/CreateStatistics.config")
 	if err != nil {
 		fmt.Println(err)
@@ -91,12 +90,12 @@ func Configure() {
 	}
 	configClickhouseGood = fmt.Sprint("tcp://", config.ClickhouseGood.Addr, ":", config.ClickhouseGood.Port, "?database=", config.ClickhouseGood.DbName, "&read_timeout=10&write_timeout=20")
 	configClickhouseBad = fmt.Sprint("tcp://", config.ClickhouseBad.Addr, ":", config.ClickhouseBad.Port, "?database=", config.ClickhouseBad.DbName, "&read_timeout=10&write_timeout=20")
-	PrintConfig()
+	printConfig()
 }
 
 func main() {
 	ticker := time.NewTicker(1 * time.Second)
-	go ParseWithRedis(ticker.C)
+	go parseWithRedis(ticker.C)
 	addr, err := determineListenAddress()
 	http.HandleFunc("/gateway/statistics/create", httpServer)
 	go func() {
@@ -113,7 +112,7 @@ func main() {
 	}
 }
 
-func ParseWithRedis(ticker <-chan time.Time) {
+func parseWithRedis(ticker <-chan time.Time) {
 	postArr := make(chan []string)
 	for {
 		select {
@@ -147,7 +146,9 @@ func prepareJson(postArr chan []string) {
 	}
 	for i, val := range valArr {
 		d := strings.Index(KeyDB[i], "ip:")
-		ip := KeyDB[i][d+3:]
+		u := strings.Index(KeyDB[i], "user_agent")
+		ip := KeyDB[i][d+3:u]
+		userAgent := KeyDB[i][u+11:]
 		jsonRaw, err := validateTypeJson(val.(string))
 		if err != nil {
 			badJson.ip = ip
@@ -161,7 +162,13 @@ func prepareJson(postArr chan []string) {
 			log.Println("jsonParser", err)
 			continue
 		}
-		err = dbRedisIp.Set(strconv.Itoa(jsonRaw.Point), ip, 0).Err()
+		point := strconv.Itoa(jsonRaw.Point)
+		fmt.Println(point, ip, userAgent)
+		err = dbRedisIp.Set(fmt.Sprint(point,"_ip"),ip,0).Err()
+		if err != nil {
+			log.Println(err)
+		}
+		err = dbRedisIp.Set(fmt.Sprint(point,"_user"),userAgent,0).Err()
 		if err != nil {
 			log.Println(err)
 		}
@@ -290,8 +297,9 @@ func determineListenAddress() (string, error) {
 func httpServer(w http.ResponseWriter, r *http.Request) {
 	ip := getRealAddr(r)
 	id := uuid.NewV4()
+	uagent := r.UserAgent()
 	data := r.PostFormValue("data")
-	err := dbRedisStat.Set(fmt.Sprint(id, "_ip:", ip), data, 0).Err()
+	err := dbRedisStat.Set(fmt.Sprint(id, "_ip:", ip, "user_agent:",uagent), data, 0).Err()
 	if err != nil {
 		log.Println("Redis SET http", err)
 		return
@@ -299,7 +307,8 @@ func httpServer(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, `{"success":true}`)
 }
 
-func PrintConfig() {
+
+func printConfig() {
 	data := [][]string{
 		[]string{"Cliclhouse Good addr", config.ClickhouseGood.Addr},
 		[]string{"Clickhouse Good port", strconv.Itoa(config.ClickhouseGood.Port)},
