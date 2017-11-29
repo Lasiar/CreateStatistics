@@ -19,7 +19,8 @@ import (
 	"strconv"
 	"strings"
 	"time"
-//	"github.com/ua-parser/uap-go/uaparser"
+	//	"github.com/ua-parser/uap-go/uaparser"
+	"flag"
 )
 
 var (
@@ -30,6 +31,10 @@ var (
 	dbRedisStat          *redis.Client
 	dbRedisIp            *redis.Client
 	config               Config
+)
+
+var (
+	sendLog = flag.Bool("nosendlog", true, "Отправлять статистику?")
 )
 
 type QueryClickhouse struct {
@@ -72,7 +77,13 @@ const (
 )
 
 func init() {
+
 	configure()
+	flag.Parse()
+	if !*sendLog {
+		log.Println("Логи не будут отправляться")
+		dbClickhouseBad = models.NewClick(configClickhouseBad)
+	}
 	dbClickhouseBad = models.NewClick(configClickhouseBad)
 	dbClickhouseGood = models.NewClick(configClickhouseGood)
 	dbRedisStat = models.NewRedis(config.RedisStat.Addr, config.RedisStat.Password)
@@ -127,6 +138,7 @@ func parseWithRedis(ticker <-chan time.Time) {
 	}
 }
 func prepareJson(postArr chan []string) {
+	//fmt.Println(*sendLog)
 	var (
 		goodJson   []QueryClickhouse
 		badJsonArr []BadJson
@@ -147,7 +159,7 @@ func prepareJson(postArr chan []string) {
 	for i, val := range valArr {
 		d := strings.Index(KeyDB[i], "ip:")
 		u := strings.Index(KeyDB[i], "user_agent")
-		ip := KeyDB[i][d+3:u]
+		ip := KeyDB[i][d+3 : u]
 		userAgent := KeyDB[i][u+11:]
 		jsonRaw, err := validateTypeJson(val.(string))
 		if err != nil {
@@ -163,12 +175,11 @@ func prepareJson(postArr chan []string) {
 			continue
 		}
 		point := strconv.Itoa(jsonRaw.Point)
-		fmt.Println(point, ip, userAgent)
-		err = dbRedisIp.Set(fmt.Sprint(point,"_ip"),ip,0).Err()
+		err = dbRedisIp.Set(fmt.Sprint(point, "_ip"), ip, 0).Err()
 		if err != nil {
 			log.Println(err)
 		}
-		err = dbRedisIp.Set(fmt.Sprint(point,"_user"),userAgent,0).Err()
+		err = dbRedisIp.Set(fmt.Sprint(point, "_user"), userAgent, 0).Err()
 		if err != nil {
 			log.Println(err)
 		}
@@ -176,7 +187,8 @@ func prepareJson(postArr chan []string) {
 
 	}
 
-	if len(badJsonArr) != 0 {
+	if len(badJsonArr) != 0  && !*sendLog {
+	//	log.Println("i am here")
 		err = sendToBadClick(badJsonArr)
 		if err != nil {
 			log.Println("Send to badJson: ", err)
@@ -299,14 +311,13 @@ func httpServer(w http.ResponseWriter, r *http.Request) {
 	id := uuid.NewV4()
 	uagent := r.UserAgent()
 	data := r.PostFormValue("data")
-	err := dbRedisStat.Set(fmt.Sprint(id, "_ip:", ip, "user_agent:",uagent), data, 0).Err()
+	err := dbRedisStat.Set(fmt.Sprint(id, "_ip:", ip, "user_agent:", uagent), data, 0).Err()
 	if err != nil {
 		log.Println("Redis SET http", err)
 		return
 	}
 	fmt.Fprint(w, `{"success":true}`)
 }
-
 
 func printConfig() {
 	data := [][]string{
