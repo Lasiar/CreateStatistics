@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="07e98f4a-235f-4052-8e04-134c4d294088" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/main.go" afterPath="$PROJECT_DIR$/main.go" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -17,12 +16,16 @@
       <file leaf-file-name="main.go" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="694">
-              <caret line="207" column="17" lean-forward="true" selection-start-line="207" selection-start-column="17" selection-end-line="207" selection-end-column="17" />
+            <state relative-caret-position="18">
+              <caret line="121" column="0" lean-forward="true" selection-start-line="121" selection-start-column="0" selection-end-line="121" selection-end-column="0" />
               <folding>
-                <element signature="e#14#423#0" expanded="true" />
-                <marker date="1511934519870" expanded="true" signature="1465:1555" ph="INSERT INTO statistics... " />
-                <marker date="1511934519870" expanded="true" signature="1583:1628" ph="INSERT INTO statistic... " />
+                <element signature="e#416#642#0" expanded="false" />
+                <element signature="e#740#811#0" expanded="false" />
+                <element signature="e#826#867#0" expanded="false" />
+                <element signature="e#881#1420#0" expanded="false" />
+                <element signature="e#1295#1374#0" expanded="false" />
+                <marker date="1511970240460" expanded="true" signature="1456:1546" ph="INSERT INTO statistics... " />
+                <marker date="1511970240460" expanded="true" signature="1574:1619" ph="INSERT INTO statistic... " />
               </folding>
             </state>
           </provider>
@@ -31,7 +34,7 @@
       <file leaf-file-name="parser.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../github.com/ua-parser/uap-go/uaparser/parser.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3474">
+            <state relative-caret-position="18">
               <caret line="203" column="5" lean-forward="false" selection-start-line="203" selection-start-column="5" selection-end-line="203" selection-end-column="5" />
               <folding />
             </state>
@@ -41,8 +44,18 @@
       <file leaf-file-name="db.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/db.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="342">
-              <caret line="25" column="0" lean-forward="false" selection-start-line="25" selection-start-column="0" selection-end-line="36" selection-end-column="1" />
+            <state relative-caret-position="270">
+              <caret line="21" column="5" lean-forward="false" selection-start-line="15" selection-start-column="4" selection-end-line="21" selection-end-column="5" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="sql.go" pinned="false" current-in-tab="false">
+        <entry file="file:///usr/local/go/src/database/sql/sql.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="198">
+              <caret line="647" column="14" lean-forward="false" selection-start-line="647" selection-start-column="14" selection-end-line="647" selection-end-column="14" />
               <folding />
             </state>
           </provider>
@@ -172,7 +185,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="settings.editor.selected.configurable" value="go.autoimport" />
+    <property name="settings.editor.selected.configurable" value="copyright.profiles" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="go.sdk.automatically.set" value="true" />
     <property name="DefaultGoTemplateProperty" value="Go Application" />
@@ -296,9 +309,13 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#14#423#0" expanded="true" />
-            <marker date="1511934519870" expanded="true" signature="1465:1555" ph="INSERT INTO statistics... " />
-            <marker date="1511934519870" expanded="true" signature="1583:1628" ph="INSERT INTO statistic... " />
+            <element signature="e#416#642#0" expanded="false" />
+            <element signature="e#740#811#0" expanded="false" />
+            <element signature="e#826#867#0" expanded="false" />
+            <element signature="e#881#1420#0" expanded="false" />
+            <element signature="e#1295#1374#0" expanded="false" />
+            <marker date="1511970240460" expanded="true" signature="1456:1546" ph="INSERT INTO statistics... " />
+            <marker date="1511970240460" expanded="true" signature="1574:1619" ph="INSERT INTO statistic... " />
           </folding>
         </state>
       </provider>
@@ -332,9 +349,13 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#14#423#0" expanded="true" />
-            <marker date="1511934519870" expanded="true" signature="1465:1555" ph="INSERT INTO statistics... " />
-            <marker date="1511934519870" expanded="true" signature="1583:1628" ph="INSERT INTO statistic... " />
+            <element signature="e#416#642#0" expanded="false" />
+            <element signature="e#740#811#0" expanded="false" />
+            <element signature="e#826#867#0" expanded="false" />
+            <element signature="e#881#1420#0" expanded="false" />
+            <element signature="e#1295#1374#0" expanded="false" />
+            <marker date="1511970240460" expanded="true" signature="1456:1546" ph="INSERT INTO statistics... " />
+            <marker date="1511970240460" expanded="true" signature="1574:1619" ph="INSERT INTO statistic... " />
           </folding>
         </state>
       </provider>
@@ -368,9 +389,13 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#14#423#0" expanded="true" />
-            <marker date="1511934519870" expanded="true" signature="1465:1555" ph="INSERT INTO statistics... " />
-            <marker date="1511934519870" expanded="true" signature="1583:1628" ph="INSERT INTO statistic... " />
+            <element signature="e#416#642#0" expanded="false" />
+            <element signature="e#740#811#0" expanded="false" />
+            <element signature="e#826#867#0" expanded="false" />
+            <element signature="e#881#1420#0" expanded="false" />
+            <element signature="e#1295#1374#0" expanded="false" />
+            <marker date="1511970240460" expanded="true" signature="1456:1546" ph="INSERT INTO statistics... " />
+            <marker date="1511970240460" expanded="true" signature="1574:1619" ph="INSERT INTO statistic... " />
           </folding>
         </state>
       </provider>
@@ -404,9 +429,13 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#14#423#0" expanded="true" />
-            <marker date="1511934519870" expanded="true" signature="1465:1555" ph="INSERT INTO statistics... " />
-            <marker date="1511934519870" expanded="true" signature="1583:1628" ph="INSERT INTO statistic... " />
+            <element signature="e#416#642#0" expanded="false" />
+            <element signature="e#740#811#0" expanded="false" />
+            <element signature="e#826#867#0" expanded="false" />
+            <element signature="e#881#1420#0" expanded="false" />
+            <element signature="e#1295#1374#0" expanded="false" />
+            <marker date="1511970240460" expanded="true" signature="1456:1546" ph="INSERT INTO statistics... " />
+            <marker date="1511970240460" expanded="true" signature="1574:1619" ph="INSERT INTO statistic... " />
           </folding>
         </state>
       </provider>
@@ -440,9 +469,13 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#14#423#0" expanded="true" />
-            <marker date="1511934519870" expanded="true" signature="1465:1555" ph="INSERT INTO statistics... " />
-            <marker date="1511934519870" expanded="true" signature="1583:1628" ph="INSERT INTO statistic... " />
+            <element signature="e#416#642#0" expanded="false" />
+            <element signature="e#740#811#0" expanded="false" />
+            <element signature="e#826#867#0" expanded="false" />
+            <element signature="e#881#1420#0" expanded="false" />
+            <element signature="e#1295#1374#0" expanded="false" />
+            <marker date="1511970240460" expanded="true" signature="1456:1546" ph="INSERT INTO statistics... " />
+            <marker date="1511970240460" expanded="true" signature="1574:1619" ph="INSERT INTO statistic... " />
           </folding>
         </state>
       </provider>
@@ -468,9 +501,13 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#14#423#0" expanded="true" />
-            <marker date="1511934519870" expanded="true" signature="1465:1555" ph="INSERT INTO statistics... " />
-            <marker date="1511934519870" expanded="true" signature="1583:1628" ph="INSERT INTO statistic... " />
+            <element signature="e#416#642#0" expanded="false" />
+            <element signature="e#740#811#0" expanded="false" />
+            <element signature="e#826#867#0" expanded="false" />
+            <element signature="e#881#1420#0" expanded="false" />
+            <element signature="e#1295#1374#0" expanded="false" />
+            <marker date="1511970240460" expanded="true" signature="1456:1546" ph="INSERT INTO statistics... " />
+            <marker date="1511970240460" expanded="true" signature="1574:1619" ph="INSERT INTO statistic... " />
           </folding>
         </state>
       </provider>
@@ -496,9 +533,13 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#14#423#0" expanded="true" />
-            <marker date="1511934519870" expanded="true" signature="1465:1555" ph="INSERT INTO statistics... " />
-            <marker date="1511934519870" expanded="true" signature="1583:1628" ph="INSERT INTO statistic... " />
+            <element signature="e#416#642#0" expanded="false" />
+            <element signature="e#740#811#0" expanded="false" />
+            <element signature="e#826#867#0" expanded="false" />
+            <element signature="e#881#1420#0" expanded="false" />
+            <element signature="e#1295#1374#0" expanded="false" />
+            <marker date="1511970240460" expanded="true" signature="1456:1546" ph="INSERT INTO statistics... " />
+            <marker date="1511970240460" expanded="true" signature="1574:1619" ph="INSERT INTO statistic... " />
           </folding>
         </state>
       </provider>
@@ -537,9 +578,13 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#14#423#0" expanded="true" />
-            <marker date="1511934519870" expanded="true" signature="1465:1555" ph="INSERT INTO statistics... " />
-            <marker date="1511934519870" expanded="true" signature="1583:1628" ph="INSERT INTO statistic... " />
+            <element signature="e#416#642#0" expanded="false" />
+            <element signature="e#740#811#0" expanded="false" />
+            <element signature="e#826#867#0" expanded="false" />
+            <element signature="e#881#1420#0" expanded="false" />
+            <element signature="e#1295#1374#0" expanded="false" />
+            <marker date="1511970240460" expanded="true" signature="1456:1546" ph="INSERT INTO statistics... " />
+            <marker date="1511970240460" expanded="true" signature="1574:1619" ph="INSERT INTO statistic... " />
           </folding>
         </state>
       </provider>
@@ -578,9 +623,13 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#14#423#0" expanded="true" />
-            <marker date="1511934519870" expanded="true" signature="1465:1555" ph="INSERT INTO statistics... " />
-            <marker date="1511934519870" expanded="true" signature="1583:1628" ph="INSERT INTO statistic... " />
+            <element signature="e#416#642#0" expanded="false" />
+            <element signature="e#740#811#0" expanded="false" />
+            <element signature="e#826#867#0" expanded="false" />
+            <element signature="e#881#1420#0" expanded="false" />
+            <element signature="e#1295#1374#0" expanded="false" />
+            <marker date="1511970240460" expanded="true" signature="1456:1546" ph="INSERT INTO statistics... " />
+            <marker date="1511970240460" expanded="true" signature="1574:1619" ph="INSERT INTO statistic... " />
           </folding>
         </state>
       </provider>
@@ -604,9 +653,13 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#14#423#0" expanded="true" />
-            <marker date="1511934519870" expanded="true" signature="1465:1555" ph="INSERT INTO statistics... " />
-            <marker date="1511934519870" expanded="true" signature="1583:1628" ph="INSERT INTO statistic... " />
+            <element signature="e#416#642#0" expanded="false" />
+            <element signature="e#740#811#0" expanded="false" />
+            <element signature="e#826#867#0" expanded="false" />
+            <element signature="e#881#1420#0" expanded="false" />
+            <element signature="e#1295#1374#0" expanded="false" />
+            <marker date="1511970240460" expanded="true" signature="1456:1546" ph="INSERT INTO statistics... " />
+            <marker date="1511970240460" expanded="true" signature="1574:1619" ph="INSERT INTO statistic... " />
           </folding>
         </state>
       </provider>
@@ -631,9 +684,13 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#14#423#0" expanded="true" />
-            <marker date="1511934519870" expanded="true" signature="1465:1555" ph="INSERT INTO statistics... " />
-            <marker date="1511934519870" expanded="true" signature="1583:1628" ph="INSERT INTO statistic... " />
+            <element signature="e#416#642#0" expanded="false" />
+            <element signature="e#740#811#0" expanded="false" />
+            <element signature="e#826#867#0" expanded="false" />
+            <element signature="e#881#1420#0" expanded="false" />
+            <element signature="e#1295#1374#0" expanded="false" />
+            <marker date="1511970240460" expanded="true" signature="1456:1546" ph="INSERT INTO statistics... " />
+            <marker date="1511970240460" expanded="true" signature="1574:1619" ph="INSERT INTO statistic... " />
           </folding>
         </state>
       </provider>
@@ -683,9 +740,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file:///usr/local/go/src/database/sql/sql.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="647" column="14" lean-forward="false" selection-start-line="647" selection-start-column="14" selection-end-line="647" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/../github.com/ua-parser/uap-go/uaparser/parser.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3474">
+        <state relative-caret-position="18">
           <caret line="203" column="5" lean-forward="false" selection-start-line="203" selection-start-column="5" selection-end-line="203" selection-end-column="5" />
           <folding />
         </state>
@@ -693,23 +758,42 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/models/db.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="25" column="0" lean-forward="false" selection-start-line="25" selection-start-column="0" selection-end-line="36" selection-end-column="1" />
+        <state relative-caret-position="270">
+          <caret line="21" column="5" lean-forward="false" selection-start-line="15" selection-start-column="4" selection-end-line="21" selection-end-column="5" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="694">
-          <caret line="207" column="17" lean-forward="true" selection-start-line="207" selection-start-column="17" selection-end-line="207" selection-end-column="17" />
+        <state relative-caret-position="18">
+          <caret line="121" column="0" lean-forward="true" selection-start-line="121" selection-start-column="0" selection-end-line="121" selection-end-column="0" />
           <folding>
-            <element signature="e#14#423#0" expanded="true" />
-            <marker date="1511934519870" expanded="true" signature="1465:1555" ph="INSERT INTO statistics... " />
-            <marker date="1511934519870" expanded="true" signature="1583:1628" ph="INSERT INTO statistic... " />
+            <element signature="e#416#642#0" expanded="false" />
+            <element signature="e#740#811#0" expanded="false" />
+            <element signature="e#826#867#0" expanded="false" />
+            <element signature="e#881#1420#0" expanded="false" />
+            <element signature="e#1295#1374#0" expanded="false" />
+            <marker date="1511970240460" expanded="true" signature="1456:1546" ph="INSERT INTO statistics... " />
+            <marker date="1511970240460" expanded="true" signature="1574:1619" ph="INSERT INTO statistic... " />
           </folding>
         </state>
       </provider>
     </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="Copyright.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
   </component>
 </project>

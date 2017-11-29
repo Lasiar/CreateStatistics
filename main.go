@@ -19,8 +19,8 @@ import (
 	"strconv"
 	"strings"
 	"time"
-	//	"github.com/ua-parser/uap-go/uaparser"
 	"flag"
+	"github.com/kshvakov/clickhouse"
 )
 
 var (
@@ -138,7 +138,6 @@ func parseWithRedis(ticker <-chan time.Time) {
 	}
 }
 func prepareJson(postArr chan []string) {
-	//fmt.Println(*sendLog)
 	var (
 		goodJson   []QueryClickhouse
 		badJsonArr []BadJson
@@ -188,16 +187,17 @@ func prepareJson(postArr chan []string) {
 	}
 
 	if len(badJsonArr) != 0  && !*sendLog {
-	//	log.Println("i am here")
 		err = sendToBadClick(badJsonArr)
 		if err != nil {
 			log.Println("Send to badJson: ", err)
+			return
 		}
 	}
 	if len(goodJson) != 0 {
 		err = sendToClick(goodJson)
 		if err != nil {
 			log.Println("Send to stat: ", err)
+			return
 		}
 	}
 	postArr <- KeyDB
@@ -341,6 +341,13 @@ func printConfig() {
 }
 
 func sendToClick(array []QueryClickhouse) error {
+	if err := dbClickhouseGood.Ping(); err != nil {
+		if exception, ok := err.(*clickhouse.Exception); ok {
+			fmt.Printf("[%d] %s \n%s\n", exception.Code, exception.Message, exception.StackTrace)
+		} else {
+			return fmt.Errorf("Error connect tp GoodClick: ", err)
+		}
+	}
 	var (
 		tx, _ = dbClickhouseGood.Begin()
 	)
@@ -366,6 +373,13 @@ func sendToClick(array []QueryClickhouse) error {
 }
 
 func sendToBadClick(badJsons []BadJson) error {
+	if err := dbClickhouseGood.Ping(); err != nil {
+		if exception, ok := err.(*clickhouse.Exception); ok {
+			fmt.Printf("[%d] %s \n%s\n", exception.Code, exception.Message, exception.StackTrace)
+		} else {
+			return fmt.Errorf("Error connect tp BadClick: ", err)
+		}
+	}
 	var (
 		tx, _ = dbClickhouseBad.Begin()
 	)
