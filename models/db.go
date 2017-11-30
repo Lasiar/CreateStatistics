@@ -35,3 +35,4 @@ func NewRedis(addr string,password string) (*redis.Client) {
 	}
 	return db
 }
+

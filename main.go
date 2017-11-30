@@ -5,22 +5,19 @@ import (
 	"CreateStatistics/models"
 	"database/sql"
 	"encoding/json"
+	"flag"
 	"fmt"
 	"github.com/go-redis/redis"
 	"github.com/lazada/goprof"
-	"github.com/olekukonko/tablewriter"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/satori/go.uuid"
-	"io/ioutil"
 	"log"
-	"net"
 	"net/http"
-	"os"
 	"strconv"
 	"strings"
 	"time"
-	"flag"
-	"github.com/kshvakov/clickhouse"
+	"CreateStatistics/web"
+	"CreateStatistics/system"
 )
 
 var (
@@ -30,55 +27,15 @@ var (
 	configClickhouseGood string
 	dbRedisStat          *redis.Client
 	dbRedisIp            *redis.Client
-	config               Config
+	config               system.Config
 )
 
 var (
-	sendLog = flag.Bool("nosendlog", true, "Отправлять статистику?")
-)
-
-type QueryClickhouse struct {
-	point    int
-	datetime int64
-	md5      string
-	len      int
-}
-
-type BadJson struct {
-	ip   string
-	json interface{}
-}
-
-type Config struct {
-	ClickhouseGood struct {
-		Port   int    `json:"Port"`
-		Addr   string `json:"Addr"`
-		DbName string `json:"DbName"`
-	} `json:"ClickhouseGood"`
-	ClickhouseBad struct {
-		Port   int    `json:"Port"`
-		Addr   string `json:"Addr"`
-		DbName string `json:"DbName"`
-	} `json:"ClickhouseBad"`
-	RedisStat struct {
-		Addr     string `json:"addr"`
-		Password string `json:"password"`
-	} `json:"RedisStat"`
-	RedisIP struct {
-		Addr     string `json:"addr"`
-		Password string `json:"password"`
-	} `json:"RedisIp"`
-	Port string `json:"Port"`
-}
-
-const (
-	dbClickhouseGoodQuery = "INSERT INTO statistics(point_id, played, md5, len) VALUES (?, ?, toFixedString(?, 32),  ?)"
-	dbClickhouseBadQuery  = "INSERT INTO statistic(ip, json) VALUES (?, ?)"
+	sendLog = flag.Bool("sendlog", true, "Отправлять статистику?")
 )
 
 func init() {
-
-	configure()
+	configClickhouseBad, configClickhouseGood, config = system.Configure()
 	flag.Parse()
 	if !*sendLog {
 		log.Println("Логи не будут отправляться")
@@ -90,24 +47,11 @@ func init() {
 	dbRedisIp = models.NewRedis(config.RedisIP.Addr, config.RedisIP.Password)
 }
 
-func configure() {
-	file, err := ioutil.ReadFile("config/CreateStatistics.config")
-	if err != nil {
-		fmt.Println(err)
-	}
-	err = json.Unmarshal(file, &config)
-	if err != nil {
-		fmt.Println("Unmarshal config", err)
-	}
-	configClickhouseGood = fmt.Sprint("tcp://", config.ClickhouseGood.Addr, ":", config.ClickhouseGood.Port, "?database=", config.ClickhouseGood.DbName, "&read_timeout=10&write_timeout=20")
-	configClickhouseBad = fmt.Sprint("tcp://", config.ClickhouseBad.Addr, ":", config.ClickhouseBad.Port, "?database=", config.ClickhouseBad.DbName, "&read_timeout=10&write_timeout=20")
-	printConfig()
-}
 
 func main() {
 	ticker := time.NewTicker(1 * time.Second)
 	go parseWithRedis(ticker.C)
-	addr, err := determineListenAddress()
+	addr, err := system.DetermineListenAddress(config.Port)
 	http.HandleFunc("/gateway/statistics/create", httpServer)
 	go func() {
 		profilingAddress := ":8033"
@@ -139,9 +83,9 @@ func parseWithRedis(ticker <-chan time.Time) {
 }
 func prepareJson(postArr chan []string) {
 	var (
-		goodJson   []QueryClickhouse
-		badJsonArr []BadJson
-		badJson    BadJson
+		goodJson   []models.QueryClickhouse
+		badJsonArr []models.BadJson
+		badJson    models.BadJson
 	)
 	KeyDB, err := dbRedisStat.Keys("*ip:*").Result()
 
@@ -162,8 +106,8 @@ func prepareJson(postArr chan []string) {
 		userAgent := KeyDB[i][u+11:]
 		jsonRaw, err := validateTypeJson(val.(string))
 		if err != nil {
-			badJson.ip = ip
-			badJson.json = val
+			badJson.Ip = ip
+			badJson.Json = val
 			badJsonArr = append(badJsonArr, badJson)
 			log.Println(err)
 			continue
@@ -186,15 +130,15 @@ func prepareJson(postArr chan []string) {
 
 	}
 
-	if len(badJsonArr) != 0  && !*sendLog {
-		err = sendToBadClick(badJsonArr)
+	if len(badJsonArr) != 0 && !*sendLog {
+		err = models.SendToBadClick(badJsonArr, dbClickhouseBad)
 		if err != nil {
 			log.Println("Send to badJson: ", err)
 			return
 		}
 	}
 	if len(goodJson) != 0 {
-		err = sendToClick(goodJson)
+		err = models.SendToClick(goodJson, dbClickhouseGood)
 		if err != nil {
 			log.Println("Send to stat: ", err)
 			return
@@ -204,23 +148,23 @@ func prepareJson(postArr chan []string) {
 	return
 }
 
-func jsonParser(rawJson lib.Json) ([]QueryClickhouse, error) {
+func jsonParser(rawJson lib.Json) ([]models.QueryClickhouse, error) {
 	var err error
 	LenQuery := len(rawJson.Statistics)
-	query := make([]QueryClickhouse, LenQuery, LenQuery)
+	query := make([]models.QueryClickhouse, LenQuery, LenQuery)
 	for p, first := range rawJson.Statistics {
-		query[p].point = rawJson.Point
+		query[p].Point = rawJson.Point
 		for i, second := range first {
 			switch i {
 			case 0:
-				query[p].datetime, err = strconv.ParseInt(second.(string), 10, 64)
+				query[p].Datetime, err = strconv.ParseInt(second.(string), 10, 64)
 				if err != nil {
 					return query, err
 				}
 			case 1:
-				query[p].md5 = second.(string)
+				query[p].Md5 = second.(string)
 			case 2:
-				query[p].len = int(second.(float64))
+				query[p].Len = int(second.(float64))
 			}
 		}
 	}
@@ -277,37 +221,8 @@ func validateTypeJson(jsonText interface{}) (lib.Json, error) {
 	return rawJson, nil
 }
 
-func getRealAddr(r *http.Request) string {
-	remoteIP := ""
-	if parts := strings.Split(r.RemoteAddr, ":"); len(parts) == 2 {
-		remoteIP = parts[0]
-	}
-	if xff := strings.Trim(r.Header.Get("X-Forwarded-For"), ","); len(xff) > 0 {
-		addrs := strings.Split(xff, ",")
-		lastFwd := addrs[len(addrs)-1]
-		if ip := net.ParseIP(lastFwd); ip != nil {
-			remoteIP = ip.String()
-		}
-	} else if xri := r.Header.Get("X-Real-Ip"); len(xri) > 0 {
-		if ip := net.ParseIP(xri); ip != nil {
-			remoteIP = ip.String()
-		}
-	}
-	return remoteIP
-}
-
-func determineListenAddress() (string, error) {
-	port := os.Getenv("PORT")
-	if port == "" {
-		fmt.Print(config.Port)
-		return config.Port, nil
-	} else {
-		return ":" + port, nil
-	}
-}
-
 func httpServer(w http.ResponseWriter, r *http.Request) {
-	ip := getRealAddr(r)
+	ip := web.GetRealAddr(r)
 	id := uuid.NewV4()
 	uagent := r.UserAgent()
 	data := r.PostFormValue("data")
@@ -317,86 +232,4 @@ func httpServer(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	fmt.Fprint(w, `{"success":true}`)
-}
-
-func printConfig() {
-	data := [][]string{
-		[]string{"Cliclhouse Good addr", config.ClickhouseGood.Addr},
-		[]string{"Clickhouse Good port", strconv.Itoa(config.ClickhouseGood.Port)},
-		[]string{"Clickhouse Good DataBase", config.ClickhouseGood.DbName},
-		[]string{"Cliclhouse Bad addr", config.ClickhouseBad.Addr},
-		[]string{"Clickhouse Bad port", strconv.Itoa(config.ClickhouseBad.Port)},
-		[]string{"Clickhouse Bad DataBase", config.ClickhouseBad.DbName},
-		[]string{"Redis stat addr", config.RedisStat.Addr},
-		[]string{"Redis stat password", config.RedisStat.Password},
-		[]string{"Redis ip addr", config.RedisIP.Addr},
-		[]string{"Redis ip password", config.RedisIP.Password},
-	}
-	table := tablewriter.NewWriter(os.Stdout)
-	table.SetHeader([]string{"Key", "Value"})
-	for _, v := range data {
-		table.Append(v)
-	}
-	table.Render()
-}
-
-func sendToClick(array []QueryClickhouse) error {
-	if err := dbClickhouseGood.Ping(); err != nil {
-		if exception, ok := err.(*clickhouse.Exception); ok {
-			fmt.Printf("[%d] %s \n%s\n", exception.Code, exception.Message, exception.StackTrace)
-		} else {
-			return fmt.Errorf("Error connect tp GoodClick: ", err)
-		}
-	}
-	var (
-		tx, _ = dbClickhouseGood.Begin()
-	)
-	stmt, err := tx.Prepare(dbClickhouseGoodQuery)
-	if err != nil {
-		log.Println(err)
-	}
-	for _, query := range array {
-		if _, err := stmt.Exec(query.point,
-			query.datetime,
-			query.md5,
-			query.len); err != nil {
-			log.Println(err)
-			return err
-		}
-	}
-
-	if err := tx.Commit(); err != nil {
-		log.Println(err)
-		return err
-	}
-	return nil
-}
-
-func sendToBadClick(badJsons []BadJson) error {
-	if err := dbClickhouseGood.Ping(); err != nil {
-		if exception, ok := err.(*clickhouse.Exception); ok {
-			fmt.Printf("[%d] %s \n%s\n", exception.Code, exception.Message, exception.StackTrace)
-		} else {
-			return fmt.Errorf("Error connect tp BadClick: ", err)
-		}
-	}
-	var (
-		tx, _ = dbClickhouseBad.Begin()
-	)
-	stmt, err := tx.Prepare(dbClickhouseBadQuery)
-	if err != nil {
-		log.Println(err)
-	}
-	for _, query := range badJsons {
-		if _, err := stmt.Exec(query.ip,
-			query.json); err != nil {
-			log.Println(err)
-			return err
-		}
-	}
-	if err := tx.Commit(); err != nil {
-		log.Println(err)
-		return err
-	}
-	return nil
 }
