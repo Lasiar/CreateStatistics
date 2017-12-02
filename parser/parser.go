@@ -1,25 +1,26 @@
 package parser
 
 import (
+	"CreateStatistics/lib"
 	"CreateStatistics/models"
-	"strings"
-	"strconv"
+	"database/sql"
+	"encoding/json"
 	"fmt"
 	"github.com/go-redis/redis"
-	"CreateStatistics/lib"
-	"encoding/json"
 	"log"
-	"database/sql"
+	"strconv"
+	"strings"
+	//"time"
+	"time"
 )
 
-func PrepareJson(postArr chan []string,sendLog bool,dbRedis *redis.Client, dbRedisIp *redis.Client, dbClickhouseBad *sql.DB, dbClickhouseGood *sql.DB) {
+func PrepareJson(postArr chan []string, sendLog bool, dbRedis *redis.Client, dbRedisIp *redis.Client, dbClickhouseBad *sql.DB, dbClickhouseGood *sql.DB) {
 	var (
 		goodJson   []models.QueryClickhouse
 		badJsonArr []models.BadJson
 		badJson    models.BadJson
 	)
 	KeyDB, err := dbRedis.Keys("*ip:*").Result()
-
 	if err != nil {
 		log.Println(err)
 	}
@@ -60,16 +61,15 @@ func PrepareJson(postArr chan []string,sendLog bool,dbRedis *redis.Client, dbRed
 		goodJson = append(goodJson, q...)
 
 	}
-
 	if len(badJsonArr) != 0 && !sendLog {
-		err = models.SendToBadClick(badJsonArr, dbClickhouseBad)
+		err = splitBadArrayJson(badJsonArr, dbClickhouseBad)
 		if err != nil {
 			log.Println("Send to badJson: ", err)
 			return
 		}
 	}
 	if len(goodJson) != 0 {
-		err = models.SendToClick(goodJson, dbClickhouseGood)
+		err := splitArrayJson(goodJson,dbClickhouseGood)
 		if err != nil {
 			log.Println("Send to stat: ", err)
 			return
@@ -151,3 +151,42 @@ func validateTypeJson(jsonText interface{}) (lib.Json, error) {
 	}
 	return rawJson, nil
 }
+
+func splitArrayJson(array []models.QueryClickhouse, dbClickhouseGood *sql.DB) error {
+	time.Sleep(1 * time.Second)
+	if len(array) >= 1000 {
+		go splitArrayJson(array[900:], dbClickhouseGood)
+		err := models.SendToClick(array[:900], dbClickhouseGood)
+		if err != nil {
+			return fmt.Errorf("Error statclick: ", err)
+		}
+	} else {
+		err := models.SendToClick(array, dbClickhouseGood)
+		if err != nil {
+			log.Println("Error statclick: ", err)
+		}
+		return nil
+	}
+	return nil
+	}
+
+
+func splitBadArrayJson(array []models.BadJson, dbClickhouseBad *sql.DB) error {
+	time.Sleep(1 * time.Second)
+	if len(array) >= 1000 {
+		go splitBadArrayJson(array[900:], dbClickhouseBad)
+		err := models.SendToBadClick(array[:900], dbClickhouseBad)
+		if err != nil {
+			return fmt.Errorf("Error statclick: ", err)
+		}
+	} else {
+		err := models.SendToBadClick(array, dbClickhouseBad)
+		if err != nil {
+			log.Println("Error statclick: ", err)
+		}
+		return nil
+	}
+	return nil
+}
+
+func 
