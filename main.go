@@ -29,6 +29,12 @@ var (
 
 var (
 	sendLog = flag.Bool("sendlog", true, "Отправлять статистику?")
+	printVer = flag.Bool("v", false, "Версия")
+	)
+
+var (
+	buildstamp string
+	githash string
 )
 
 func init() {
@@ -45,6 +51,11 @@ func init() {
 }
 
 func main() {
+	if *printVer {
+		fmt.Println(buildstamp)
+		fmt.Println(githash)
+		return
+	}
 	ticker := time.NewTicker(3 * time.Second)
 	go parseWithRedis(ticker.C)
 	addr, err := system.DetermineListenAddress(config.Port)
