@@ -2,6 +2,9 @@ package main
 
 import (
 	"CreateStatistics/models"
+	"CreateStatistics/parser"
+	"CreateStatistics/system"
+	"CreateStatistics/web"
 	"database/sql"
 	"flag"
 	"fmt"
@@ -12,9 +15,6 @@ import (
 	"log"
 	"net/http"
 	"time"
-	"CreateStatistics/web"
-	"CreateStatistics/system"
-	"CreateStatistics/parser"
 )
 
 var (
@@ -44,9 +44,8 @@ func init() {
 	dbRedisIp = models.NewRedis(config.RedisIP.Addr, config.RedisIP.Password)
 }
 
-
 func main() {
-	ticker := time.NewTicker(1 * time.Second)
+	ticker := time.NewTicker(3 * time.Second)
 	go parseWithRedis(ticker.C)
 	addr, err := system.DetermineListenAddress(config.Port)
 	http.HandleFunc("/gateway/statistics/create", httpServer)
@@ -65,21 +64,14 @@ func main() {
 }
 
 func parseWithRedis(ticker <-chan time.Time) {
-	postArr := make(chan []string)
+	//	postArr := make(chan []string)
 	for {
 		select {
 		case <-ticker:
-			go parser.PrepareJson(postArr, *sendLog ,dbRedisStat, dbRedisIp, dbClickhouseBad, dbClickhouseGood)
-		case post := <-postArr:
-			err := dbRedisStat.Del(post...).Err()
-			if err != nil {
-				log.Println(err)
-			}
+			go parser.PrepareJson(*sendLog, dbRedisStat, dbRedisIp, dbClickhouseBad, dbClickhouseGood)
 		}
 	}
 }
-
-
 
 func httpServer(w http.ResponseWriter, r *http.Request) {
 	ip := web.GetRealAddr(r)

@@ -10,11 +10,10 @@ import (
 	"log"
 	"strconv"
 	"strings"
-	//"time"
 	"time"
 )
 
-func PrepareJson(postArr chan []string, sendLog bool, dbRedis *redis.Client, dbRedisIp *redis.Client, dbClickhouseBad *sql.DB, dbClickhouseGood *sql.DB) {
+func PrepareJson(sendLog bool, dbRedis *redis.Client, dbRedisIp *redis.Client, dbClickhouseBad *sql.DB, dbClickhouseGood *sql.DB) {
 	var (
 		goodJson   []models.QueryClickhouse
 		badJsonArr []models.BadJson
@@ -36,7 +35,12 @@ func PrepareJson(postArr chan []string, sendLog bool, dbRedis *redis.Client, dbR
 		u := strings.Index(KeyDB[i], "user_agent")
 		ip := KeyDB[i][d+3 : u]
 		userAgent := KeyDB[i][u+11:]
-		jsonRaw, err := validateTypeJson(val.(string))
+		valString, err := checkString(val)
+		if err != nil {
+			log.Println(err)
+			return
+		}
+		jsonRaw, err := validateTypeJson(valString)
 		if err != nil {
 			badJson.Ip = ip
 			badJson.Json = val
@@ -50,32 +54,27 @@ func PrepareJson(postArr chan []string, sendLog bool, dbRedis *redis.Client, dbR
 			continue
 		}
 		point := strconv.Itoa(jsonRaw.Point)
-		err = dbRedisIp.Set(fmt.Sprint(point, "_ip"), ip, 0).Err()
-		if err != nil {
-			log.Println(err)
-		}
-		err = dbRedisIp.Set(fmt.Sprint(point, "_user"), userAgent, 0).Err()
-		if err != nil {
-			log.Println(err)
-		}
+		sendInfo(ip, userAgent, point, dbRedisIp)
 		goodJson = append(goodJson, q...)
-
 	}
-	if len(badJsonArr) != 0 && !sendLog {
-		err = splitBadArrayJson(badJsonArr, dbClickhouseBad)
+	if len(badJsonArr) != 0 && sendLog {
+		err := splitBadArrayJson(badJsonArr, dbClickhouseBad, 0)
 		if err != nil {
 			log.Println("Send to badJson: ", err)
 			return
 		}
 	}
 	if len(goodJson) != 0 {
-		err := splitArrayJson(goodJson,dbClickhouseGood)
+		err := splitArrayJson(goodJson, dbClickhouseGood)
 		if err != nil {
 			log.Println("Send to stat: ", err)
 			return
 		}
 	}
-	postArr <- KeyDB
+	err = dbRedis.Del(KeyDB...).Err()
+	if err != nil {
+		log.Println(err)
+	}
 	return
 }
 
@@ -104,21 +103,20 @@ func jsonParser(rawJson lib.Json) ([]models.QueryClickhouse, error) {
 
 func validateTypeJson(jsonText interface{}) (lib.Json, error) {
 	var rawJson lib.Json
-	switch jsonText.(type) {
-	case string:
-		err := json.Unmarshal([]byte(jsonText.(string)), &rawJson)
-		if err != nil {
-			log.Println("err json")
-			return rawJson, err
-		}
-	default:
-		return rawJson, fmt.Errorf("unknow error")
+	jsonString, err := checkString(jsonText)
+	if err != nil {
+		log.Println(err)
+			return  rawJson, fmt.Errorf("type error:", rawJson)
 	}
+		err = json.Unmarshal([]byte(jsonString), &rawJson)
+		if err != nil {
+			return rawJson, fmt.Errorf("error json:", err, rawJson)
+		}
 	if rawJson.Point == 0 {
 		return rawJson, fmt.Errorf("WARNING: point == 0")
 	}
 	if len(rawJson.Statistics) == 0 {
-		return rawJson, fmt.Errorf("Corutpted json")
+		return rawJson, fmt.Errorf("Corutpted json: %v", jsonText)
 	}
 	for _, first := range rawJson.Statistics {
 		for i, second := range first {
@@ -168,13 +166,21 @@ func splitArrayJson(array []models.QueryClickhouse, dbClickhouseGood *sql.DB) er
 		return nil
 	}
 	return nil
+}
+
+func checkString(v interface{}) (string, error) {
+	switch v.(type) {
+	case string:
+		return v.(string), nil
+	default:
+		return "", fmt.Errorf("some errors", v)
 	}
+}
 
-
-func splitBadArrayJson(array []models.BadJson, dbClickhouseBad *sql.DB) error {
+func splitBadArrayJson(array []models.BadJson, dbClickhouseBad *sql.DB, i int) error {
 	time.Sleep(1 * time.Second)
 	if len(array) >= 1000 {
-		go splitBadArrayJson(array[900:], dbClickhouseBad)
+		go splitBadArrayJson(array[900:], dbClickhouseBad, i)
 		err := models.SendToBadClick(array[:900], dbClickhouseBad)
 		if err != nil {
 			return fmt.Errorf("Error statclick: ", err)
@@ -189,4 +195,13 @@ func splitBadArrayJson(array []models.BadJson, dbClickhouseBad *sql.DB) error {
 	return nil
 }
 
-func 
+func sendInfo(ip string, userAgent string, point string, db *redis.Client) {
+	err := db.Set(fmt.Sprint(point, "_ip"), ip, 0).Err()
+	if err != nil {
+		log.Println(err)
+	}
+	err = db.Set(fmt.Sprint(point, "_user"), userAgent, 0).Err()
+	if err != nil {
+		log.Println(err)
+	}
+}
