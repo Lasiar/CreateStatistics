@@ -1,11 +1,9 @@
 package web
 
 import (
-
+	"net"
 	"net/http"
 	"strings"
-	"net"
-
 )
 
 func GetRealAddr(r *http.Request) string {

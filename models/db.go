@@ -3,12 +3,12 @@ package models
 import (
 	"database/sql"
 	"fmt"
+	"github.com/go-redis/redis"
 	"github.com/kshvakov/clickhouse"
 	"log"
-	"github.com/go-redis/redis"
 )
 
-func NewClick(config string) (*sql.DB) {
+func NewClick(config string) *sql.DB {
 	db, err := sql.Open("clickhouse", config)
 	if err != nil {
 		log.Fatal(err)
@@ -23,11 +23,11 @@ func NewClick(config string) (*sql.DB) {
 	return db
 }
 
-func NewRedis(addr string,password string) (*redis.Client) {
+func NewRedis(addr string, password string) *redis.Client {
 	db := redis.NewClient(&redis.Options{
 		Addr:     "127.0.0.1:6379",
 		Password: "", // no password set
-		DB:       0,                         // use default DB
+		DB:       0,  // use default DB
 	})
 	_, err := db.Ping().Result()
 	if err != nil {
@@ -35,4 +35,3 @@ func NewRedis(addr string,password string) (*redis.Client) {
 	}
 	return db
 }
-

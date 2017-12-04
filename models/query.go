@@ -1,10 +1,10 @@
 package models
 
 import (
-	"github.com/kshvakov/clickhouse"
-	"fmt"
-	"log"
 	"database/sql"
+	"fmt"
+	"github.com/kshvakov/clickhouse"
+	"log"
 )
 
 type QueryClickhouse struct {
@@ -23,7 +23,6 @@ const (
 	dbClickhouseGoodQuery = "INSERT INTO statistics(point_id, played, md5, len) VALUES (?, ?, toFixedString(?, 32),  ?)"
 	dbClickhouseBadQuery  = "INSERT INTO statistic(ip, json) VALUES (?, ?)"
 )
-
 
 func SendToClick(array []QueryClickhouse, db *sql.DB) error {
 	if err := db.Ping(); err != nil {

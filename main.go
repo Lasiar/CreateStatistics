@@ -14,6 +14,7 @@ import (
 	"github.com/satori/go.uuid"
 	"log"
 	"net/http"
+	"os"
 	"time"
 )
 
@@ -28,18 +29,24 @@ var (
 )
 
 var (
-	sendLog = flag.Bool("sendlog", true, "Отправлять статистику?")
+	sendLog  = flag.Bool("sendlog", true, "Отправлять статистику?")
 	printVer = flag.Bool("v", false, "Версия")
-	)
+)
 
 var (
 	buildstamp string
-	githash string
+	githash    string
 )
 
 func init() {
-	configClickhouseBad, configClickhouseGood, config = system.Configure()
 	flag.Parse()
+	if *printVer {
+		fmt.Println(buildstamp)
+		fmt.Println(githash)
+		os.Exit(1)
+		return
+	}
+	configClickhouseBad, configClickhouseGood, config = system.Configure()
 	if !*sendLog {
 		log.Println("Логи не будут отправляться")
 		dbClickhouseBad = models.NewClick(configClickhouseBad)
@@ -51,11 +58,6 @@ func init() {
 }
 
 func main() {
-	if *printVer {
-		fmt.Println(buildstamp)
-		fmt.Println(githash)
-		return
-	}
 	ticker := time.NewTicker(3 * time.Second)
 	go parseWithRedis(ticker.C)
 	addr, err := system.DetermineListenAddress(config.Port)

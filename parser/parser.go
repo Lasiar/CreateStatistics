@@ -106,12 +106,12 @@ func validateTypeJson(jsonText interface{}) (lib.Json, error) {
 	jsonString, err := checkString(jsonText)
 	if err != nil {
 		log.Println(err)
-			return  rawJson, fmt.Errorf("type error:", rawJson)
+		return rawJson, fmt.Errorf("type error:", rawJson)
 	}
-		err = json.Unmarshal([]byte(jsonString), &rawJson)
-		if err != nil {
-			return rawJson, fmt.Errorf("error json:", err, rawJson)
-		}
+	err = json.Unmarshal([]byte(jsonString), &rawJson)
+	if err != nil {
+		return rawJson, fmt.Errorf("error json:", err, rawJson)
+	}
 	if rawJson.Point == 0 {
 		return rawJson, fmt.Errorf("WARNING: point == 0")
 	}

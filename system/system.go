@@ -1,14 +1,13 @@
 package system
 
 import (
-	"os"
-	"strconv"
+	"encoding/json"
+	"fmt"
 	"github.com/olekukonko/tablewriter"
 	"io/ioutil"
-	"fmt"
-	"encoding/json"
+	"os"
+	"strconv"
 )
-
 
 type Config struct {
 	ClickhouseGood struct {
