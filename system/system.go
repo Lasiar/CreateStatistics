@@ -76,3 +76,12 @@ func printConfig(config Config) {
 	}
 	table.Render()
 }
+
+func CheckString(v interface{}) (string, error) {
+	switch v.(type) {
+	case string:
+		return v.(string), nil
+	default:
+		return "", fmt.Errorf("some errors", v)
+	}
+}

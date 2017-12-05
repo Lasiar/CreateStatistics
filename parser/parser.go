@@ -3,6 +3,7 @@ package parser
 import (
 	"CreateStatistics/lib"
 	"CreateStatistics/models"
+	"CreateStatistics/system"
 	"database/sql"
 	"encoding/json"
 	"fmt"
@@ -36,7 +37,7 @@ func PrepareJson(sendLog bool, dbRedis *redis.Client, dbRedisIp *redis.Client, d
 		u := strings.Index(KeyDB[i], "user_agent")
 		ip := KeyDB[i][d+3 : u]
 		userAgent := KeyDB[i][u+11:]
-		valString, err := checkString(val)
+		valString, err := system.CheckString(val)
 		if err != nil {
 			log.Println(err)
 			return
@@ -104,7 +105,7 @@ func jsonParser(rawJson lib.Json) ([]models.QueryClickhouse, error) {
 
 func validateTypeJson(jsonText interface{}) (lib.Json, error) {
 	var rawJson lib.Json
-	jsonString, err := checkString(jsonText)
+	jsonString, err := system.CheckString(jsonText)
 	if err != nil {
 		log.Println(err)
 		return rawJson, fmt.Errorf("type error: %v", rawJson)
@@ -121,7 +122,7 @@ func validateTypeJson(jsonText interface{}) (lib.Json, error) {
 	}
 	for _, first := range rawJson.Statistics {
 		for i, second := range first {
-			err := validRawJson(second, i)
+			err := validStatisticJson(second, i)
 			if err !=nil {
 				return rawJson, fmt.Errorf("type error: %v JSONTEXT: %v", err, jsonText)
 			}
@@ -149,14 +150,6 @@ func splitArrayJson(array []models.QueryClickhouse, dbClickhouseGood *sql.DB) er
 	return nil
 }
 
-func checkString(v interface{}) (string, error) {
-	switch v.(type) {
-	case string:
-		return v.(string), nil
-	default:
-		return "", fmt.Errorf("some errors", v)
-	}
-}
 
 func splitBadArrayJson(array []models.BadJson, dbClickhouseBad *sql.DB, i int) error {
 	time.Sleep(1 * time.Second)
@@ -187,7 +180,7 @@ func sendInfo(ip string, userAgent string, point string, db *redis.Client) {
 	}
 }
 
-func validRawJson(StatisticArr interface{}, iterator int) error {
+func validStatisticJson(StatisticArr interface{}, iterator int) error {
 	switch t := StatisticArr.(type) {
 	case float64:
 		if iterator == 0 || iterator == 1 {
