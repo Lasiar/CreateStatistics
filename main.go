@@ -47,6 +47,7 @@ func init() {
 		return
 	}
 	configClickhouseBad, configClickhouseGood, config = system.Configure()
+
 	if !*sendLog {
 		log.Println("Логи не будут отправляться")
 		dbClickhouseBad = models.NewClick(configClickhouseBad)

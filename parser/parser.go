@@ -29,6 +29,7 @@ func PrepareJson(sendLog bool, dbRedis *redis.Client, dbRedisIp *redis.Client, d
 	valArr, err := dbRedis.MGet(KeyDB...).Result()
 	if err != nil {
 		log.Println(err)
+		return
 	}
 	for i, val := range valArr {
 		d := strings.Index(KeyDB[i], "ip:")
@@ -106,7 +107,7 @@ func validateTypeJson(jsonText interface{}) (lib.Json, error) {
 	jsonString, err := checkString(jsonText)
 	if err != nil {
 		log.Println(err)
-		return rawJson, fmt.Errorf("type error:", rawJson)
+		return rawJson, fmt.Errorf("type error: %v", rawJson)
 	}
 	err = json.Unmarshal([]byte(jsonString), &rawJson)
 	if err != nil {
@@ -120,30 +121,9 @@ func validateTypeJson(jsonText interface{}) (lib.Json, error) {
 	}
 	for _, first := range rawJson.Statistics {
 		for i, second := range first {
-			switch t := second.(type) {
-			case float64:
-				if i == 0 || i == 1 {
-					return rawJson, fmt.Errorf("point %v WARNING: invalid json: want float 64, have %b", rawJson.Point, t)
-				}
-			case string:
-				if i == 2 {
-					return rawJson, fmt.Errorf("point %v WARNING: invalid json: want string, have %v", rawJson.Point, t)
-				} else {
-					if i == 1 {
-						if strings.Contains(t, " ") {
-							return rawJson, fmt.Errorf("point %v WARNING: invalid json: md5 has space", rawJson.Point)
-						}
-						if l := len(t); l != 32 {
-							return rawJson, fmt.Errorf("point %v WARNING: invalid json: want md5 lenght 32, have %v", rawJson.Point, l)
-						}
-					} else {
-						if strings.Contains(t, " ") {
-							return rawJson, fmt.Errorf("point %v WARNING: invalid json: datetime has space", rawJson.Point)
-						}
-					}
-				}
-			default:
-				return rawJson, fmt.Errorf("point %v WARNING: unknow type %v", rawJson.Point, t)
+			err := validRawJson(second, i)
+			if err !=nil {
+				return rawJson, fmt.Errorf("type error: %v JSONTEXT: %v", err, jsonText)
 			}
 		}
 	}
@@ -162,7 +142,8 @@ func splitArrayJson(array []models.QueryClickhouse, dbClickhouseGood *sql.DB) er
 		err := models.SendToClick(array, dbClickhouseGood)
 		if err != nil {
 			log.Println("Error statclick: ", err)
-		}
+			return err
+			}
 		return nil
 	}
 	return nil
@@ -204,4 +185,33 @@ func sendInfo(ip string, userAgent string, point string, db *redis.Client) {
 	if err != nil {
 		log.Println(err)
 	}
+}
+
+func validRawJson(StatisticArr interface{}, iterator int) error {
+	switch t := StatisticArr.(type) {
+	case float64:
+		if iterator == 0 || iterator == 1 {
+			return fmt.Errorf("WARNING: invalid json: want float 64, have %v", t)
+		}
+	case string:
+		if iterator == 2 {
+			return fmt.Errorf("WARNING: invalid json: want string, have %v", t)
+		} else {
+			if iterator == 1 {
+				if strings.Contains(t, " ") {
+					return fmt.Errorf("WARNING: invalid json: md5 has space")
+				}
+				if l := len(t); l != 32 {
+					return fmt.Errorf("WARNING: invalid json: want md5 lenght 32, have %v", t )
+				}
+			} else {
+				if strings.Contains(t, " ") {
+					return fmt.Errorf("WARNING: invalid json: datetime has space")
+				}
+			}
+		}
+	default:
+		return fmt.Errorf("WARNING: unknow type %v", t)
+	}
+	return nil
 }
