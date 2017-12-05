@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/kshvakov/clickhouse"
 	"log"
+	"github.com/go-redis/redis"
 )
 
 type QueryClickhouse struct {
@@ -83,4 +84,15 @@ func SendToBadClick(badJsons []BadJson, db *sql.DB) error {
 		return err
 	}
 	return nil
+}
+
+func SendInfo(ip string, userAgent string, point string, db *redis.Client) {
+	err := db.Set(fmt.Sprint(point, "_ip"), ip, 0).Err()
+	if err != nil {
+		log.Println(err)
+	}
+	err = db.Set(fmt.Sprint(point, "_user"), userAgent, 0).Err()
+	if err != nil {
+		log.Println(err)
+	}
 }

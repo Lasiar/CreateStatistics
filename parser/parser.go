@@ -56,7 +56,7 @@ func PrepareJson(sendLog bool, dbRedis *redis.Client, dbRedisIp *redis.Client, d
 			continue
 		}
 		point := strconv.Itoa(jsonRaw.Point)
-		sendInfo(ip, userAgent, point, dbRedisIp)
+		models.SendInfo(ip, userAgent, point, dbRedisIp)
 		goodJson = append(goodJson, q...)
 	}
 	if len(badJsonArr) != 0 && sendLog {
@@ -169,16 +169,6 @@ func splitBadArrayJson(array []models.BadJson, dbClickhouseBad *sql.DB, i int) e
 	return nil
 }
 
-func sendInfo(ip string, userAgent string, point string, db *redis.Client) {
-	err := db.Set(fmt.Sprint(point, "_ip"), ip, 0).Err()
-	if err != nil {
-		log.Println(err)
-	}
-	err = db.Set(fmt.Sprint(point, "_user"), userAgent, 0).Err()
-	if err != nil {
-		log.Println(err)
-	}
-}
 
 func validStatisticJson(StatisticArr interface{}, iterator int) error {
 	switch t := StatisticArr.(type) {
