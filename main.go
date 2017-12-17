@@ -16,6 +16,7 @@ import (
 	"net/http"
 	"os"
 	"time"
+	"github.com/nats-io/go-nats"
 )
 
 var (
@@ -26,6 +27,7 @@ var (
 	dbRedisStat          *redis.Client
 	dbRedisIp            *redis.Client
 	config               system.Config
+	nc					 *nats.Conn
 )
 
 var (
@@ -59,6 +61,7 @@ func init() {
 }
 
 func main() {
+	nc, _ = nats.Connect(nats.DefaultURL)
 	ticker := time.NewTicker(3 * time.Second)
 	go parseWithRedis(ticker.C)
 	addr, err := system.DetermineListenAddress(config.Port)
@@ -82,7 +85,7 @@ func parseWithRedis(ticker <-chan time.Time) {
 	for {
 		select {
 		case <-ticker:
-			go parser.PrepareJson(*sendLog, dbRedisStat, dbRedisIp, dbClickhouseBad, dbClickhouseGood)
+			go parser.PrepareJson(*sendLog, dbRedisStat, dbRedisIp, dbClickhouseBad, dbClickhouseGood, nc)
 		}
 	}
 }

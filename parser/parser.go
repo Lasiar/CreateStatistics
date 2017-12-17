@@ -12,9 +12,13 @@ import (
 	"strconv"
 	"strings"
 	"time"
+	"github.com/nats-io/go-nats"
+	"net/http"
+	"bytes"
+	"io/ioutil"
 )
 
-func PrepareJson(sendLog bool, dbRedis *redis.Client, dbRedisIp *redis.Client, dbClickhouseBad *sql.DB, dbClickhouseGood *sql.DB) {
+func PrepareJson(sendLog bool, dbRedis *redis.Client, dbRedisIp *redis.Client, dbClickhouseBad *sql.DB, dbClickhouseGood *sql.DB, nc *nats.Conn) {
 	var (
 		goodJson   []models.QueryClickhouse
 		badJsonArr []models.BadJson
@@ -55,6 +59,27 @@ func PrepareJson(sendLog bool, dbRedis *redis.Client, dbRedisIp *redis.Client, d
 			log.Println("jsonParser", err)
 			continue
 		}
+
+
+		fmt.Println(jsonRaw)
+		url := "http://127.0.0.1:8282/listen"
+		jsonStr,_ := json.Marshal(jsonRaw)
+		req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
+		req.Header.Set("X-Custom-Header", "json")
+		req.Header.Set("Content-Type", "application/json")
+		client := &http.Client{}
+		resp, err := client.Do(req)
+		if err != nil {
+			panic(err)
+		}
+		defer resp.Body.Close()
+
+		fmt.Println("response Status:", resp.Status)
+		fmt.Println("response Headers:", resp.Header)
+		body, _ := ioutil.ReadAll(resp.Body)
+		fmt.Println("response Body:", string(body))
+
+
 		point := strconv.Itoa(jsonRaw.Point)
 		models.SendInfo(ip, userAgent, point, dbRedisIp)
 		goodJson = append(goodJson, q...)
