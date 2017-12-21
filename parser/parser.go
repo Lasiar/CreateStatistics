@@ -15,6 +15,7 @@ import (
 	"github.com/nats-io/go-nats"
 	"net/http"
 	"bytes"
+//	"io/ioutil"
 	"io/ioutil"
 )
 
@@ -59,27 +60,7 @@ func PrepareJson(sendLog bool, dbRedis *redis.Client, dbRedisIp *redis.Client, d
 			log.Println("jsonParser", err)
 			continue
 		}
-
-
-		fmt.Println(jsonRaw)
-		url := "http://127.0.0.1:8282/listen"
-		jsonStr,_ := json.Marshal(jsonRaw)
-		req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
-		req.Header.Set("X-Custom-Header", "json")
-		req.Header.Set("Content-Type", "application/json")
-		client := &http.Client{}
-		resp, err := client.Do(req)
-		if err != nil {
-			panic(err)
-		}
-		defer resp.Body.Close()
-
-		fmt.Println("response Status:", resp.Status)
-		fmt.Println("response Headers:", resp.Header)
-		body, _ := ioutil.ReadAll(resp.Body)
-		fmt.Println("response Body:", string(body))
-
-
+		SendAllStatistic(jsonRaw)
 		point := strconv.Itoa(jsonRaw.Point)
 		models.SendInfo(ip, userAgent, point, dbRedisIp)
 		goodJson = append(goodJson, q...)
@@ -222,4 +203,26 @@ func validStatisticJson(StatisticArr interface{}, iterator int) error {
 		return fmt.Errorf("WARNING: unknow type %v", t)
 	}
 	return nil
+}
+
+
+func SendAllStatistic(jsonRaw lib.Json) {
+	url := "http://127.0.0.1:8181/gateway/telegram/print"
+	jsonStr,_ := json.Marshal(jsonRaw)
+	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
+	if err != nil {
+		fmt.Println(err)
+	}
+	req.Header.Set("X-Custom-Header", "json")
+	req.Header.Set("Content-Type", "application/json")
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer resp.Body.Close()
+
+	body, _ := ioutil.ReadAll(resp.Body)
+	fmt.Println("response Body:", string(body))
+
 }

@@ -47,7 +47,7 @@ func init() {
 		fmt.Println(githash)
 		os.Exit(1)
 		return
-	}
+	}	 
 	configClickhouseBad, configClickhouseGood, config = system.Configure()
 
 	if !*sendLog {
