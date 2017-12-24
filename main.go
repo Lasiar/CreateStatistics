@@ -5,10 +5,8 @@ import (
 	"CreateStatistics/parser"
 	"CreateStatistics/system"
 	"CreateStatistics/web"
-	"database/sql"
 	"flag"
 	"fmt"
-	"github.com/go-redis/redis"
 	"github.com/lazada/goprof"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/satori/go.uuid"
@@ -16,23 +14,17 @@ import (
 	"net/http"
 	"os"
 	"time"
-	"github.com/nats-io/go-nats"
+	"CreateStatistics/lib"
 )
 
-var (
-	dbClickhouseBad      *sql.DB
-	dbClickhouseGood     *sql.DB
-	configClickhouseBad  string
-	configClickhouseGood string
-	dbRedisStat          *redis.Client
-	dbRedisIp            *redis.Client
-	config               system.Config
-	nc					 *nats.Conn
-)
 
 var (
 	sendLog  = flag.Bool("sendlog", true, "Отправлять статистику?")
 	printVer = flag.Bool("v", false, "Версия")
+)
+
+var (
+	config lib.Config
 )
 
 var (
@@ -48,20 +40,19 @@ func init() {
 		os.Exit(1)
 		return
 	}	 
-	configClickhouseBad, configClickhouseGood, config = system.Configure()
+	lib.ConfigClickhouseBad, lib.ConfigClickhouseGood, config = system.Configure()
 
 	if !*sendLog {
 		log.Println("Логи не будут отправляться")
-		dbClickhouseBad = models.NewClick(configClickhouseBad)
+		lib.DBClickhouseBad = models.NewClick(lib.ConfigClickhouseBad)
 	}
-	dbClickhouseBad = models.NewClick(configClickhouseBad)
-	dbClickhouseGood = models.NewClick(configClickhouseGood)
-	dbRedisStat = models.NewRedis(config.RedisStat.Addr, config.RedisStat.Password)
-	dbRedisIp = models.NewRedis(config.RedisIP.Addr, config.RedisIP.Password)
+	lib.DBClickhouseBad = models.NewClick(lib.ConfigClickhouseBad)
+	lib.DBClickhouseGood = models.NewClick(lib.ConfigClickhouseGood)
+	lib.DBRedisStat = models.NewRedis(config.RedisStat.Addr, config.RedisStat.Password)
+	lib.DBRedisIp = models.NewRedis(config.RedisIP.Addr, config.RedisIP.Password)
 }
 
 func main() {
-	nc, _ = nats.Connect(nats.DefaultURL)
 	ticker := time.NewTicker(3 * time.Second)
 	go parseWithRedis(ticker.C)
 	addr, err := system.DetermineListenAddress(config.Port)
@@ -78,14 +69,17 @@ func main() {
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}
+	defer lib.DBClickhouseBad.Close()
+	defer lib.DBClickhouseGood.Close()
+	defer lib.DBRedisIp.Close()
+	defer lib.DBRedisStat.Close()
 }
 
 func parseWithRedis(ticker <-chan time.Time) {
-	//	postArr := make(chan []string)
 	for {
 		select {
 		case <-ticker:
-			go parser.PrepareJson(*sendLog, dbRedisStat, dbRedisIp, dbClickhouseBad, dbClickhouseGood, nc)
+			go parser.PrepareJson(*sendLog, lib.DBRedisStat, lib.DBRedisIp, lib.DBClickhouseBad, lib.DBClickhouseGood)
 		}
 	}
 }
@@ -95,7 +89,7 @@ func httpServer(w http.ResponseWriter, r *http.Request) {
 	id := uuid.NewV4()
 	uagent := r.UserAgent()
 	data := r.PostFormValue("data")
-	err := dbRedisStat.Set(fmt.Sprint(id, "_ip:", ip, "user_agent:", uagent), data, 0).Err()
+	err := lib.DBRedisStat.Set(fmt.Sprint(id, "_ip:", ip, "user_agent:", uagent), data, 0).Err()
 	if err != nil {
 		log.Println("Redis SET http", err)
 		return

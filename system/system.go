@@ -7,29 +7,9 @@ import (
 	"io/ioutil"
 	"os"
 	"strconv"
+	"CreateStatistics/lib"
 )
 
-type Config struct {
-	ClickhouseGood struct {
-		Port   int    `json:"Port"`
-		Addr   string `json:"Addr"`
-		DbName string `json:"DbName"`
-	} `json:"ClickhouseGood"`
-	ClickhouseBad struct {
-		Port   int    `json:"Port"`
-		Addr   string `json:"Addr"`
-		DbName string `json:"DbName"`
-	} `json:"ClickhouseBad"`
-	RedisStat struct {
-		Addr     string `json:"addr"`
-		Password string `json:"password"`
-	} `json:"RedisStat"`
-	RedisIP struct {
-		Addr     string `json:"addr"`
-		Password string `json:"password"`
-	} `json:"RedisIp"`
-	Port string `json:"Port"`
-}
 
 func DetermineListenAddress(portWithConfig string) (string, error) {
 	port := os.Getenv("PORT")
@@ -40,8 +20,8 @@ func DetermineListenAddress(portWithConfig string) (string, error) {
 	}
 }
 
-func Configure() (string, string, Config) {
-	var config Config
+func Configure() (string, string, lib.Config) {
+	var config lib.Config
 	file, err := ioutil.ReadFile("config/CreateStatistics.config")
 	if err != nil {
 		fmt.Println(err)
@@ -56,7 +36,7 @@ func Configure() (string, string, Config) {
 	return configClickhouseBad, configClickhouseGood, config
 }
 
-func printConfig(config Config) {
+func printConfig(config lib.Config) {
 	data := [][]string{
 		[]string{"Cliclhouse Good addr", config.ClickhouseGood.Addr},
 		[]string{"Clickhouse Good port", strconv.Itoa(config.ClickhouseGood.Port)},

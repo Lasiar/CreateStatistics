@@ -12,14 +12,11 @@ import (
 	"strconv"
 	"strings"
 	"time"
-	"github.com/nats-io/go-nats"
 	"net/http"
 	"bytes"
-//	"io/ioutil"
-	"io/ioutil"
 )
 
-func PrepareJson(sendLog bool, dbRedis *redis.Client, dbRedisIp *redis.Client, dbClickhouseBad *sql.DB, dbClickhouseGood *sql.DB, nc *nats.Conn) {
+func PrepareJson(sendLog bool, dbRedis *redis.Client, dbRedisIp *redis.Client, dbClickhouseBad *sql.DB, dbClickhouseGood *sql.DB) {
 	var (
 		goodJson   []models.QueryClickhouse
 		badJsonArr []models.BadJson
@@ -60,12 +57,12 @@ func PrepareJson(sendLog bool, dbRedis *redis.Client, dbRedisIp *redis.Client, d
 			log.Println("jsonParser", err)
 			continue
 		}
-		SendAllStatistic(jsonRaw)
 		point := strconv.Itoa(jsonRaw.Point)
 		models.SendInfo(ip, userAgent, point, dbRedisIp)
 		goodJson = append(goodJson, q...)
 	}
 	if len(badJsonArr) != 0 && sendLog {
+		SendBadStatistic(badJsonArr)
 		err := splitBadArrayJson(badJsonArr, dbClickhouseBad, 0)
 		if err != nil {
 			log.Println("Send to badJson: ", err)
@@ -73,6 +70,7 @@ func PrepareJson(sendLog bool, dbRedis *redis.Client, dbRedisIp *redis.Client, d
 		}
 	}
 	if len(goodJson) != 0 {
+		SendGoodStatistic(goodJson)
 		err := splitArrayJson(goodJson, dbClickhouseGood)
 		if err != nil {
 			log.Println("Send to stat: ", err)
@@ -84,7 +82,7 @@ func PrepareJson(sendLog bool, dbRedis *redis.Client, dbRedisIp *redis.Client, d
 		log.Println(err)
 	}
 	return
-}
+}	
 
 func jsonParser(rawJson lib.Json) ([]models.QueryClickhouse, error) {
 	var err error
@@ -206,23 +204,42 @@ func validStatisticJson(StatisticArr interface{}, iterator int) error {
 }
 
 
-func SendAllStatistic(jsonRaw lib.Json) {
-	url := "http://127.0.0.1:8181/gateway/telegram/print"
-	jsonStr,_ := json.Marshal(jsonRaw)
-	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
-	if err != nil {
-		fmt.Println(err)
-	}
-	req.Header.Set("X-Custom-Header", "json")
-	req.Header.Set("Content-Type", "application/json")
-	client := &http.Client{}
-	resp, err := client.Do(req)
-	if err != nil {
-		fmt.Println(err)
-	}
-	defer resp.Body.Close()
+func SendGoodStatistic(js []models.QueryClickhouse) {
+	for _, jsonRaw := range js {
+		url := "http://127.0.0.1:8181/gateway/telegram/create/good"
+		jsonStr, _ := json.Marshal(jsonRaw)
+		req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
+		if err != nil {
+			return
+		}
+		req.Header.Set("X-Custom-Header", "json")
+		req.Header.Set("Content-Type", "application/json")
+		client := &http.Client{}
+		resp, err := client.Do(req)
+		if err != nil {
+			return
+		}
+		defer resp.Body.Close()
 
-	body, _ := ioutil.ReadAll(resp.Body)
-	fmt.Println("response Body:", string(body))
+	}
+}
 
+func SendBadStatistic(js []models.BadJson) {
+	for _, jsonRaw := range js {
+		url := "http://127.0.0.1:8181/gateway/telegram/create/bad"
+		jsonStr, _ := json.Marshal(jsonRaw)
+		req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
+		if err != nil {
+			return
+		}
+		req.Header.Set("X-Custom-Header", "json")
+		req.Header.Set("Content-Type", "application/json")
+		client := &http.Client{}
+		resp, err := client.Do(req)
+		if err != nil {
+			return
+		}
+		defer resp.Body.Close()
+
+	}
 }
