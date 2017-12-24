@@ -22,7 +22,7 @@ type BadJson struct {
 
 const (
 	dbClickhouseGoodQuery = "INSERT INTO statistics(point_id, played, md5, len) VALUES (?, ?, toFixedString(?, 32),  ?)"
-	dbClickhouseBadQuery  = "INSERT INTO statistic(ip, json) VALUES (?, ?)"
+	dbClickhouseBadQuery  = `INSERT INTO badjson(ip, json) VALUES ($1, $2)`
 )
 
 func SendToClick(array []QueryClickhouse, db *sql.DB) error {
