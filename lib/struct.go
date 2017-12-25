@@ -11,7 +11,7 @@ type Config struct {
 		Addr   string `json:"Addr"`
 		DbName string `json:"DbName"`
 	} `json:"ClickhouseGood"`
-	ClickhouseBad struct {
+	PostBad struct {
 		Port   int    `json:"Port"`
 		Addr   string `json:"Addr"`
 		DbName string `json:"DbName"`
