@@ -30,17 +30,19 @@ var (
 var (
 	buildstamp string
 	githash    string
+	version	string
 )
 
 func init() {
 	flag.Parse()
 	if *printVer {
-		fmt.Println(buildstamp)
-		fmt.Println(githash)
+		fmt.Println("Build time: ", buildstamp)
+		fmt.Println("Git hash:   ", githash)
+		fmt.Println("Version:    ", version)
 		os.Exit(1)
 		return
 	}	 
-	lib.ConfigClickhouseBad, lib.ConfigClickhouseGood, config = system.Configure()
+	lib.ConfigClickhouseGood, config = system.Configure()
 
 	if !*sendLog {
 		log.Println("Логи не будут отправляться")

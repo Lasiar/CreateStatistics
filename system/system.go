@@ -20,7 +20,7 @@ func DetermineListenAddress(portWithConfig string) (string, error) {
 	}
 }
 
-func Configure() (string, string, lib.Config) {
+func Configure() ( string, lib.Config) {
 	var config lib.Config
 	file, err := ioutil.ReadFile("config/CreateStatistics.config")
 	if err != nil {
@@ -31,9 +31,8 @@ func Configure() (string, string, lib.Config) {
 		fmt.Println("Unmarshal config", err)
 	}
 	configClickhouseGood := fmt.Sprint("tcp://", config.ClickhouseGood.Addr, ":", config.ClickhouseGood.Port, "?database=", config.ClickhouseGood.DbName, "&read_timeout=10&write_timeout=20")
-	configClickhouseBad := fmt.Sprint("tcp://", config.ClickhouseBad.Addr, ":", config.ClickhouseBad.Port, "?database=", config.ClickhouseBad.DbName, "&read_timeout=10&write_timeout=20")
 	printConfig(config)
-	return configClickhouseBad, configClickhouseGood, config
+	return  configClickhouseGood, config
 }
 
 func printConfig(config lib.Config) {
@@ -41,9 +40,6 @@ func printConfig(config lib.Config) {
 		[]string{"Cliclhouse Good addr", config.ClickhouseGood.Addr},
 		[]string{"Clickhouse Good port", strconv.Itoa(config.ClickhouseGood.Port)},
 		[]string{"Clickhouse Good DataBase", config.ClickhouseGood.DbName},
-		[]string{"Cliclhouse Bad addr", config.ClickhouseBad.Addr},
-		[]string{"Clickhouse Bad port", strconv.Itoa(config.ClickhouseBad.Port)},
-		[]string{"Clickhouse Bad DataBase", config.ClickhouseBad.DbName},
 		[]string{"Redis stat addr", config.RedisStat.Addr},
 		[]string{"Redis stat password", config.RedisStat.Password},
 		[]string{"Redis ip addr", config.RedisIP.Addr},
