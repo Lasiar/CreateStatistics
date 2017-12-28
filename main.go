@@ -19,8 +19,8 @@ import (
 
 
 var (
-	sendLog  = flag.Bool("sendlog", true, "Отправлять статистику?")
-	printVer = flag.Bool("v", false, "Версия")
+	sendLog  = flag.Bool("sendlog", true, "send log")
+	printVer = flag.Bool("v", false, "version")
 )
 
 var (
