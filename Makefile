@@ -1,4 +1,4 @@
-BINARY=create_statistics
+BINARY=statistics
 GO=$(shell which go)
 GOBUILD=$(GO) build
 CURRENTDIR=$(shell pwd)
@@ -11,4 +11,4 @@ LDFLAGS=-ldflags "-s -X main.buildstamp=$(DATETIME) -X main.githash=$(GITHASH) -
 
 build:
 	echo $(VERINCREMENT)	
-	$(GOBUILD) $(LDFLAGS) -o $(BINARY)
+	$(GOBUILD) $(LDFLAGS) -o '$(BINARY)_v$(VERSION)'
