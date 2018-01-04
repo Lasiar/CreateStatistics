@@ -11,11 +11,11 @@ type Config struct {
 		Addr   string `json:"Addr"`
 		DbName string `json:"DbName"`
 	} `json:"ClickhouseGood"`
-	PostBad struct {
-		Port   int    `json:"Port"`
-		Addr   string `json:"Addr"`
-		DbName string `json:"DbName"`
-	} `json:"ClickhouseBad"`
+	PostgresqlBad struct {
+		User     string `json:"user"`
+		Password string `json:"password"`
+		DbName   string `json:"DbName"`
+	} `json:"PostgresqlBad"`
 	RedisStat struct {
 		Addr     string `json:"addr"`
 		Password string `json:"password"`

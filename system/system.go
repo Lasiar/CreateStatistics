@@ -31,15 +31,20 @@ func Configure() ( string, lib.Config) {
 		fmt.Println("Unmarshal config", err)
 	}
 	configClickhouseGood := fmt.Sprint("tcp://", config.ClickhouseGood.Addr, ":", config.ClickhouseGood.Port, "?database=", config.ClickhouseGood.DbName, "&read_timeout=10&write_timeout=20")
+	lib.ConfigPostgresqlBad = fmt.Sprint("user=", config.PostgresqlBad.User, " dbname=", config.PostgresqlBad.DbName, " password=", config.PostgresqlBad.Password)
 	printConfig(config)
 	return  configClickhouseGood, config
 }
 
 func printConfig(config lib.Config) {
+	fmt.Println(lib.ConfigPostgresqlBad)
 	data := [][]string{
 		[]string{"Cliclhouse Good addr", config.ClickhouseGood.Addr},
 		[]string{"Clickhouse Good port", strconv.Itoa(config.ClickhouseGood.Port)},
 		[]string{"Clickhouse Good DataBase", config.ClickhouseGood.DbName},
+		[]string{"Postgrqsql dbname", config.PostgresqlBad.DbName},
+		[]string{"Postgresqk user", config.PostgresqlBad.User},
+		[]string{"Postgresql password", config.PostgresqlBad.Password},
 		[]string{"Redis stat addr", config.RedisStat.Addr},
 		[]string{"Redis stat password", config.RedisStat.Password},
 		[]string{"Redis ip addr", config.RedisIP.Addr},

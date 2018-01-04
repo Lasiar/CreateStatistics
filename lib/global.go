@@ -8,7 +8,7 @@ import (
 var (
 	DBClickhouseBad      *sql.DB
 	DBClickhouseGood     *sql.DB
-	ConfigClickhouseBad  string
+	ConfigPostgresqlBad  string
 	ConfigClickhouseGood string
 	DBRedisStat          *redis.Client
 	DBRedisIp            *redis.Client

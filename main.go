@@ -44,11 +44,7 @@ func init() {
 	}	 
 	lib.ConfigClickhouseGood, config = system.Configure()
 
-	if !*sendLog {
-		log.Println("Логи не будут отправляться")
-		lib.DBClickhouseBad = models.NewClick(lib.ConfigClickhouseBad)
-	}
-	lib.DBClickhouseBad = models.NewPostSql("user=uid0001 dbname=stat password=music888")
+	lib.DBClickhouseBad = models.NewPostSql(lib.ConfigPostgresqlBad)
 	lib.DBClickhouseGood = models.NewClick(lib.ConfigClickhouseGood)
 	lib.DBRedisStat = models.NewRedis(config.RedisStat.Addr, config.RedisStat.Password)
 	lib.DBRedisIp = models.NewRedis(config.RedisIP.Addr, config.RedisIP.Password)
