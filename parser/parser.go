@@ -100,7 +100,11 @@ func jsonParser(rawJson lib.Json) ([]models.QueryClickhouse, error) {
 			case 1:
 				query[p].Md5 = second.(string)
 			case 2:
-				query[p].Len = int(second.(float64))
+				if int(second.(float64)) >= 300{
+					query[p].Len = 20
+				} else {
+					query[p].Len = int(second.(float64))
+				}
 			}
 		}
 	}
